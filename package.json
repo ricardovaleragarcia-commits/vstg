@@ -5,9 +5,11 @@
   "description": "Digital archive of traces from failed futures",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/dominant-colors.mjs",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "colors": "node scripts/dominant-colors.mjs"
   },
   "dependencies": {
     "@fontsource/stix-two-text": "^5.0.0",
@@ -19,6 +21,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
+    "sharp": "^0.35.5",
     "typescript": "^5.6.0"
   }
 }

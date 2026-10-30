@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Application, Assets, BlurFilter, Container, Graphics, Sprite, Text, Texture, TilingSprite } from "pixi.js";
+import { Application, Assets, BlurFilter, Container, Filter, GlProgram, Graphics, Sprite, Text, Texture, TilingSprite } from "pixi.js";
 import {
   initArchive,
   BLOCK_HEIGHT,
@@ -35,6 +35,66 @@ function grainTexture(): Texture {
   grainCache = Texture.from(canvas);
   grainCache.source.resolution = window.devicePixelRatio || 1;
   return grainCache;
+}
+
+// ---- Dissolve: the photograph appears grain by grain over its colour frame ----
+const DISSOLVE_MS = 1100; // how long one photograph takes to dissolve in
+const DISSOLVE_CELL = 7; // size of one dissolving grain, in pixels of the frame
+const DISSOLVE_VERTEX = `
+in vec2 aPosition;
+out vec2 vTextureCoord;
+uniform vec4 uInputSize;
+uniform vec4 uOutputFrame;
+uniform vec4 uOutputTexture;
+void main(void) {
+  vec2 position = aPosition * uOutputFrame.zw + uOutputFrame.xy;
+  position.x = position.x * (2.0 / uOutputTexture.x) - 1.0;
+  position.y = position.y * (2.0 * uOutputTexture.z / uOutputTexture.y) - uOutputTexture.z;
+  gl_Position = vec4(position, 0.0, 1.0);
+  vTextureCoord = aPosition * (uOutputFrame.zw * uInputSize.zw);
+}`;
+// Every grain gets a random threshold; the grain shows once the progress passes it.
+// A little smooth noise is mixed in, so the dissolve breaks up in patches instead of pure static.
+const DISSOLVE_FRAGMENT = `
+in vec2 vTextureCoord;
+out vec4 finalColor;
+uniform sampler2D uTexture;
+uniform float uProgress;
+uniform float uSeed;
+uniform vec2 uCells;
+float hash(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21) + uSeed);
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+float smoothNoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+void main() {
+  vec4 color = texture(uTexture, vTextureCoord);
+  vec2 cell = floor(vTextureCoord * uCells);
+  float n = mix(hash(cell), smoothNoise(cell / 9.0), 0.4);
+  float edge = 0.12;
+  float shown = smoothstep(n, n + edge, uProgress * (1.0 + edge));
+  finalColor = color * shown;
+}`;
+let dissolveProgram: GlProgram | null = null;
+function dissolveFilter(w: number, h: number): Filter {
+  dissolveProgram ??= GlProgram.from({ vertex: DISSOLVE_VERTEX, fragment: DISSOLVE_FRAGMENT, name: "vstg-dissolve" });
+  return new Filter({
+    glProgram: dissolveProgram,
+    resources: {
+      dissolveUniforms: {
+        uProgress: { value: 0, type: "f32" },
+        uSeed: { value: Math.random() * 100, type: "f32" },
+        uCells: { value: [Math.max(1, w / DISSOLVE_CELL), Math.max(1, h / DISSOLVE_CELL)], type: "vec2<f32>" },
+      },
+    },
+  });
 }
 const DRAG_TOLERANCE = 6; // pixels moved before a press counts as dragging, not clicking
 const TOP_SPACE = 200; // keeps the first pieces below the masthead
@@ -325,6 +385,30 @@ export default function Collection({
               grain.alpha = GRAIN;
               inner.addChildAt(grain, 2);
               grainOf.set(piece.id, grain);
+
+              // The photograph dissolves in over the colour frame, grain by grain, instead of popping in.
+              const dissolve = dissolveFilter(piece.w, piece.h);
+              sprite.filters = [dissolve];
+              grain.alpha = 0;
+              const delay = Math.random() * 250; // pieces that arrive together do not all start in step
+              const t0 = performance.now() + delay;
+              const run = () => {
+                if (inner.destroyed || sprite.destroyed) {
+                  instance.ticker.remove(run);
+                  return;
+                }
+                const t = Math.min(1, Math.max(0, (performance.now() - t0) / DISSOLVE_MS));
+                const eased = t * t * (3 - 2 * t);
+                dissolve.resources.dissolveUniforms.uniforms.uProgress = eased;
+                grain.alpha = GRAIN * eased;
+                if (t >= 1) {
+                  sprite.filters = [];
+                  dissolve.destroy();
+                  grain.alpha = GRAIN;
+                  instance.ticker.remove(run);
+                }
+              };
+              instance.ticker.add(run);
             })
             .catch(() => {});
         }

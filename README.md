@@ -20,7 +20,7 @@ No database and no accounts. All content lives in `src/data/vstg.ts` and `public
 ## Adding a piece
 1. Download the image with a licence that allows reuse, and save it in `public/vstg/`.
 2. Add an entry to `src/data/vstg.ts`, with its source and licence.
-3. Commit and push. Vercel publishes the change.
+3. Commit and push. The site rebuilds, and the colour each frame shows while its photograph loads is recalculated from the image by itself (`npm run colors` does it by hand).
 
 ## Publishing
 The site is published with GitHub Pages at https://ricardovaleragarcia-commits.github.io/vstg/

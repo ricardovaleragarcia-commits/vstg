@@ -1,4 +1,5 @@
 import { VSTG } from "@/data/vstg";
+import COLORS from "@/data/colors.json"; // predominant colour of each image, made by `npm run colors`
 
 // The plane is a tile of pieces, packed once with no holes. The tile repeats in every direction.
 // Each repetition rotates its columns and shifts which archive entry sits where.
@@ -57,6 +58,11 @@ function rng(seed: number) {
     r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
     return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+function dominantColor(code: string): number | null {
+  const hex = (COLORS as Record<string, string>)[code];
+  return hex ? parseInt(hex.slice(1), 16) : null;
 }
 
 function pick<T>(random: () => number, items: T[]): T {
@@ -236,7 +242,8 @@ export function initArchive(seed: number) {
   BLOCK_HEIGHT = TILE.height;
   const entries: Content[] = VSTG.map((v, k) => ({
     code: displayCode(v),
-    color: PALETTE[k % PALETTE.length],
+    // The frame is painted with the predominant colour of its photograph until the photograph arrives.
+    color: dominantColor(v.code) ?? PALETTE[k % PALETTE.length],
     name: v.name,
     description: v.description,
     failedFuture: v.failedFuture,
