@@ -39,6 +39,7 @@ function grainTexture(): Texture {
 
 // ---- Dissolve: the photograph appears grain by grain over its colour frame ----
 const DISSOLVE_MS = 1100; // how long one photograph takes to dissolve in
+const FRAME_FADE_MS = 900; // how long a colour frame takes to fade in before its photograph arrives
 const DISSOLVE_CELL = 7; // size of one dissolving grain, in pixels of the frame
 const DISSOLVE_VERTEX = `
 in vec2 aPosition;
@@ -350,7 +351,21 @@ export default function Collection({
 
         // The blur applies to the content only; the mask then trims it to the frame.
         const inner = new Container();
-        inner.addChild(new Graphics().rect(0, 0, piece.w, piece.h).fill(piece.color));
+        // The colour frame fades in softly instead of appearing as a hard block.
+        const swatch = new Graphics().rect(0, 0, piece.w, piece.h).fill(piece.color);
+        swatch.alpha = 0;
+        inner.addChild(swatch);
+        const frameStart = performance.now() + Math.random() * 400;
+        const fadeFrame = () => {
+          if (swatch.destroyed) {
+            instance.ticker.remove(fadeFrame);
+            return;
+          }
+          const t = Math.min(1, Math.max(0, (performance.now() - frameStart) / FRAME_FADE_MS));
+          swatch.alpha = t * t * (3 - 2 * t);
+          if (t >= 1) instance.ticker.remove(fadeFrame);
+        };
+        instance.ticker.add(fadeFrame);
 
         if (piece.kind === "text" && piece.text) {
           const copy = new Text({
@@ -391,7 +406,8 @@ export default function Collection({
               sprite.filters = [dissolve];
               grain.alpha = 0;
               const delay = Math.random() * 250; // pieces that arrive together do not all start in step
-              const t0 = performance.now() + delay;
+              // The photograph waits until its colour frame is mostly in, so the two do not arrive at once.
+              const t0 = Math.max(performance.now() + delay, frameStart + FRAME_FADE_MS * 0.6);
               const run = () => {
                 if (inner.destroyed || sprite.destroyed) {
                   instance.ticker.remove(run);
