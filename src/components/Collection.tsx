@@ -651,13 +651,13 @@ export default function Collection({
                 <RewriteLabel
                   short={
                     focused.presentEffect.kind === "documented"
-                      ? "[r.c.t.]"
-                      : `[r.c.t. — ${focused.presentEffect.kind}]`
+                      ? "[f.f. eff.]"
+                      : `[f.f. eff. — ${focused.presentEffect.kind}]`
                   }
                   full={
                     focused.presentEffect.kind === "documented"
-                      ? "[residual contemporary times]"
-                      : `[residual contemporary times — ${focused.presentEffect.kind}]`
+                      ? "[failed future effect]"
+                      : `[failed future effect — ${focused.presentEffect.kind}]`
                   }
                 />
               </p>
