@@ -1,0 +1,260 @@
+{
+ "0035": {
+  "year": 1963,
+  "name": "Pennsylvania Station, New York, 1910–1963",
+  "conceptionYear": 1902,
+  "closureYear": 1963,
+  "description": "McKim, Mead & White's Pennsylvania Station, opened in 1910: a granite gateway to New York with a waiting room modelled on the Baths of Caracalla. Demolition began on 28 October 1963.",
+  "failedFuture": "A monument meant to stand for centuries as the entrance to the city. Less than sixty years after it opened, the railroad sold the air rights and the station was torn down for Madison Square Garden; its trains were moved underground.",
+  "source": "Wikipedia, \"Pennsylvania Station (1910–1963)\"; Wikipedia, \"New York City Landmarks Preservation Commission\".",
+  "link": "https://en.wikipedia.org/wiki/Pennsylvania_Station_(1910%E2%80%931963)",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the station did not last, its loss changed how New York protects its buildings: the Landmarks Preservation Commission was created in 1965, and in 1978 the Supreme Court used that law to save Grand Central Terminal from a tower built over it. Commuters still pass through the basement it left behind.",
+   "source": "Wikipedia, \"New York City Landmarks Preservation Commission\"; \"Penn Central Transportation Co. v. New York City\" (1978).",
+   "link": "https://en.wikipedia.org/wiki/New_York_City_Landmarks_Preservation_Commission"
+  }
+ },
+ "0039": {
+  "year": 1985,
+  "name": "Westway, New York, 1971–1985",
+  "conceptionYear": 1971,
+  "closureYear": 1985,
+  "description": "Westway, a 4.2-mile interstate highway planned from 1971 to run in a tunnel through new landfill along Manhattan's Hudson River shore, replacing the collapsing West Side Elevated Highway.",
+  "failedFuture": "A buried motorway along the west side of Manhattan, with new land and parks on top. A federal judge blocked it over its effect on the river's striped bass, and New York traded in the highway funds in September 1985.",
+  "source": "Wikipedia, \"Westway (New York)\".",
+  "link": "https://en.wikipedia.org/wiki/Westway_(New_York)",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the highway was dropped, most of its federal money went to the city's subways and buses, and the riverfront was rebuilt instead as a boulevard and a park: Hudson River Park, created by law in 1998, now runs along the shore where the tunnel would have been.",
+   "source": "Wikipedia, \"Westway (New York)\"; Wikipedia, \"Hudson River Park\".",
+   "link": "https://en.wikipedia.org/wiki/Hudson_River_Park"
+  }
+ },
+ "0117": {
+  "year": 1962,
+  "name": "Pete Best, drummer of the Beatles, 1960–1962",
+  "conceptionYear": 1960,
+  "closureYear": 1962,
+  "description": "Pete Best, drummer of the Beatles from August 1960, through their Hamburg years and their first EMI session. On 16 August 1962 their manager Brian Epstein told him he was out of the band.",
+  "failedFuture": "A place in the band that was about to become the most famous in the world. He was dismissed two months before their first single, and Ringo Starr took his seat.",
+  "source": "Wikipedia, \"Pete Best\".",
+  "link": "https://en.wikipedia.org/wiki/Pete_Best",
+  "eff": {
+   "kind": "documented",
+   "text": "Because he was dropped, Best became the most famous example of almost: he worked in a bakery and then for 20 years as a civil servant in a job centre in Liverpool. In 1995 the recordings he had played on were released on the Beatles' Anthology 1, and the royalties made him a rich man three decades late.",
+   "source": "Wikipedia, \"Pete Best\".",
+   "link": "https://en.wikipedia.org/wiki/Pete_Best"
+  }
+ },
+ "0140": {
+  "year": 1976,
+  "name": "Ronald Wayne, the third founder of Apple, 1976",
+  "conceptionYear": 1976,
+  "closureYear": 1976,
+  "description": "Ronald Wayne drew Apple's first logo and wrote its partnership agreement, signed on 1 April 1976 with Steve Jobs and Steve Wozniak, which gave him 10% of the company.",
+  "failedFuture": "A tenth of Apple. Twelve days after signing, Wayne withdrew from the partnership and sold his share for $800, fearing the debts of a business he did not believe in; he later accepted $1,500 to give up any further claim.",
+  "source": "Wikipedia, \"Ronald Wayne\"; Fortune, \"Apple cofounder sold 10% stake for $800\".",
+  "link": "https://en.wikipedia.org/wiki/Ronald_Wayne",
+  "eff": {
+   "kind": "attributed",
+   "text": "Because he left, Apple became Jobs and Wozniak's alone, and his tenth turned into a figure people still calculate: Fortune estimated it would be worth about $400 billion. Wayne has said he made the right decision with what he knew; he sold his copy of the founding contract in the 1990s for $500, and in 2011 it was auctioned for $1.6 million."
+  }
+ },
+ "0150": {
+  "year": 1913,
+  "name": "Jim Thorpe's Olympic medals, 1912–1913",
+  "conceptionYear": 1912,
+  "closureYear": 1913,
+  "description": "Jim Thorpe, of the Sac and Fox Nation, won the pentathlon and the decathlon at the 1912 Stockholm Olympics. In January 1913 newspapers revealed he had been paid to play minor-league baseball.",
+  "failedFuture": "An Olympic champion's career. In 1913 the Amateur Athletic Union and the IOC stripped him of his titles and medals for having been paid as an athlete.",
+  "source": "Wikipedia, \"Jim Thorpe\".",
+  "link": "https://en.wikipedia.org/wiki/Jim_Thorpe",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the titles were taken, Thorpe spent his life outside the record books he had set, and died in 1953 without them. The IOC restored his medals as co-champion in 1982 and, after a long campaign, recognised him as sole champion of both events in July 2022, 110 years later."
+  }
+ },
+ "0156": {
+  "year": 1795,
+  "name": "Decimal time, France, 1793–1795",
+  "conceptionYear": 1793,
+  "closureYear": 1795,
+  "description": "A clock face divided into ten hours of 100 minutes each, the time system decreed by the French Republic in November 1793, beside the new metric measures.",
+  "failedFuture": "A day measured like the metre: ten hours, a hundred minutes, a hundred seconds. People would not change their clocks, and its mandatory use was suspended on 7 April 1795.",
+  "source": "Wikipedia, \"Decimal time\".",
+  "link": "https://en.wikipedia.org/wiki/Decimal_time",
+  "eff": {
+   "kind": "documented",
+   "text": "Because decimal time failed, the metric system was decimal everywhere except in time: the same law of 1795 that created the metre and the gram suspended the ten-hour day, which is why the world still counts in 24 hours, 60 minutes and 60 seconds."
+  }
+ },
+ "0160": {
+  "year": 1962,
+  "name": "The Decca audition, 1 January 1962",
+  "conceptionYear": 1962,
+  "closureYear": 1962,
+  "description": "On 1 January 1962 the Beatles recorded fifteen songs at Decca Studios in West Hampstead, London, as an audition for the label.",
+  "failedFuture": "The Beatles as a Decca band. The label chose another group, Brian Poole and the Tremeloes, and Epstein recalled being told that guitar groups were on their way out.",
+  "source": "Wikipedia, \"Decca audition\"; Wikipedia, \"Dick Rowe\".",
+  "link": "https://en.wikipedia.org/wiki/Decca_audition",
+  "eff": {
+   "kind": "documented",
+   "text": "Because Decca said no, the Beatles signed with EMI's Parlophone in 1962 and spent their career there. Decca's Dick Rowe, remembered as the man who turned them down, signed the Rolling Stones in 1963 on a tip from George Harrison."
+  }
+ },
+ "0165": {
+  "year": 1922,
+  "name": "Esperanto at the League of Nations, 1920–1922",
+  "conceptionYear": 1920,
+  "closureYear": 1922,
+  "description": "In 1920, after a report by under-secretary Nitobe Inazō, a group of delegates proposed that the League of Nations adopt Esperanto for international relations.",
+  "failedFuture": "A neutral international language taught in every school and spoken between states. Ten delegates accepted it; the French delegate Gabriel Hanotaux voted against, and France used its veto to block it.",
+  "source": "Wikipedia, \"History of Esperanto\".",
+  "link": "https://en.wikipedia.org/wiki/History_of_Esperanto",
+  "eff": {
+   "kind": "interpretation",
+   "text": "Because the League did not adopt a neutral language, international life went on in the languages of the great powers: the League worked in French and English, the United Nations inherited them, and English has since become the world's common language, the role Esperanto was proposed for."
+  }
+ },
+ "0167": {
+  "year": 2002,
+  "name": "Samnorsk, one Norwegian, 1917–2002",
+  "conceptionYear": 1917,
+  "closureYear": 2002,
+  "description": "Samnorsk, 'common Norwegian': the official policy of bringing Norway's two written standards, Bokmål and Nynorsk, closer through spelling reforms in 1917, 1938 and 1959, until they could merge.",
+  "failedFuture": "A single written Norwegian. The reforms provoked resistance, including parents' campaigns that corrected their children's textbooks by hand, and the policy was formally abandoned in 2002.",
+  "source": "Britannica, \"Samnorsk\"; Wikipedia, \"Norwegian language conflict\".",
+  "link": "https://www.britannica.com/topic/Samnorsk",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the two standards did not merge, Norway still writes in two official forms: every pupil learns both Bokmål and Nynorsk, and public bodies must use both."
+  }
+ },
+ "0171": {
+  "year": 1805,
+  "name": "The French Republican calendar, 1793–1805",
+  "conceptionYear": 1793,
+  "closureYear": 1805,
+  "description": "The calendar of the French Republic, used from 1793: twelve months of thirty days named after the seasons, such as Brumaire, Germinal and Thermidor, and years counted from the Republic's founding in 1792.",
+  "failedFuture": "A new time for a new society, counted from Year I of the Republic and free of saints and kings. Napoleon abolished it with effect from 1 January 1806.",
+  "source": "Wikipedia, \"French Republican calendar\".",
+  "link": "https://en.wikipedia.org/wiki/French_Republican_calendar",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the calendar did not last, its months survive as names for moments of the Revolution: 'Thermidor' became the word for a revolution turning back on itself, the '18 Brumaire' for a seizure of power, and Zola's Germinal (1885) took its title from it."
+  }
+ },
+ "0177": {
+  "year": 1922,
+  "name": "An Irish-speaking Ireland, 1922",
+  "conceptionYear": 1893,
+  "closureYear": null,
+  "description": "The Gaelic League, founded in 1893, and later the Irish Free State, established in 1922, set out to make Irish the everyday language of the country again, through schools and the civil service.",
+  "failedFuture": "A nation that would speak Irish at home and in the street. Irish became compulsory in schools and the first official language, but English remained the language of daily life.",
+  "source": "Central Statistics Office, Census 2022 Summary Results: Education and Irish Language.",
+  "link": "https://www.cso.ie/en/releasesandpublications/ep/p-cpsr/censusofpopulation2022-summaryresults/educationandirishlanguage",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the revival did not reach daily life, Ireland lives with a gap between knowing and speaking: in Census 2022, 1,873,997 people said they could speak Irish, but only 71,968 spoke it daily outside school."
+  }
+ },
+ "0179": {
+  "year": 1957,
+  "name": "Black Mountain College, 1933–1957",
+  "conceptionYear": 1933,
+  "closureYear": 1957,
+  "description": "Black Mountain College in North Carolina, founded in 1933 as an experimental school where the arts were at the centre of education; Josef and Anni Albers came from the closed Bauhaus to teach there.",
+  "failedFuture": "A small college run by its teachers and students, where art would shape a whole way of learning and living. It closed in 1957, short of money and students.",
+  "source": "Wikipedia, \"Black Mountain College\".",
+  "link": "https://en.wikipedia.org/wiki/Black_Mountain_College",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the college closed, the people it had gathered took its experiments into American art: John Cage, Merce Cunningham, Robert Rauschenberg and Ruth Asawa had taught or studied there, and Cage's 1952 untitled event there is counted as the first 'happening'."
+  }
+ },
+ "0182": {
+  "year": 1933,
+  "name": "Prohibition in the United States, 1920–1933",
+  "conceptionYear": 1919,
+  "closureYear": 1933,
+  "description": "The Eighteenth Amendment, in force from 17 January 1920, banned the manufacture, transport and sale of alcoholic drinks across the United States.",
+  "failedFuture": "A dry nation, sober and free of the saloon. Drinking went underground, and the Twenty-first Amendment repealed Prohibition on 5 December 1933.",
+  "source": "Wikipedia, \"Prohibition in the United States\".",
+  "link": "https://en.wikipedia.org/wiki/Prohibition_in_the_United_States",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the dry nation failed, it left behind what grew in its place: organised crime financed by bootlegging, and stock-car racing, born from the souped-up cars of moonshine runners, from which NASCAR was founded in 1948. Some counties in the United States are still dry today."
+  }
+ },
+ "0183": {
+  "year": 1985,
+  "name": "New Coke, 1985",
+  "conceptionYear": 1985,
+  "closureYear": 1985,
+  "description": "On 23 April 1985 the Coca-Cola Company replaced its 99-year-old formula with a new, sweeter one, marketed as 'New Coke', after blind taste tests against Pepsi.",
+  "failedFuture": "A new taste for the world's best-known drink. Consumers protested and hoarded the old formula, and on 11 July 1985, after 79 days, the company brought it back as Coca-Cola Classic.",
+  "source": "Wikipedia, \"New Coke\".",
+  "link": "https://en.wikipedia.org/wiki/New_Coke",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the new taste was rejected, the old one returned stronger than before, and New Coke became the case taught in business schools on the attachment people feel to a brand. In 2019 the company briefly brought it back as a prop of nostalgia for the series Stranger Things."
+  }
+ },
+ "0187": {
+  "year": 1988,
+  "name": "Betamax, 1975–1988",
+  "conceptionYear": 1975,
+  "closureYear": 1988,
+  "description": "Sony's Betamax, the home videocassette format launched in 1975, which let people record television and watch films at home.",
+  "failedFuture": "The format of home video. VHS, launched by JVC in 1976 with longer tapes and more licensed manufacturers, overtook it; in 1988 Sony began making VHS recorders itself.",
+  "source": "Wikipedia, \"Betamax\"; Wikipedia, \"Sony Corp. of America v. Universal City Studios, Inc.\".",
+  "link": "https://en.wikipedia.org/wiki/Betamax",
+  "eff": {
+   "kind": "documented",
+   "text": "Its defeat left something larger than the format: the 1984 Betamax case, in which the US Supreme Court ruled that recording television at home is fair use, still protects technologies that can copy. And the 'format war' became the lesson every new standard is measured against."
+  }
+ },
+ "0189": {
+  "year": 1982,
+  "name": "Metric America, 1975–1982",
+  "conceptionYear": 1975,
+  "closureYear": 1982,
+  "description": "The Metric Conversion Act of 1975 declared the metric system the preferred system of weights and measures for US trade and commerce, and set up a Metric Board to plan the change.",
+  "failedFuture": "A United States measured in metres and kilograms like most of the world. Conversion was voluntary, the public resisted, and the Metric Board was abolished in 1982.",
+  "source": "Wikipedia, \"Metrication in the United States\"; NASA, Mars Climate Orbiter Mishap Investigation Board report (1999).",
+  "link": "https://en.wikipedia.org/wiki/Metrication_in_the_United_States",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the change stopped halfway, the United States lives with two systems at once, and their meeting can be costly: in 1999 NASA lost the Mars Climate Orbiter because one team's software used pound-force units where another expected metric ones. Interstate 19 in Arizona still shows distances in kilometres."
+  }
+ },
+ "0196": {
+  "year": 1974,
+  "name": "The Picturephone, 1964–1974",
+  "conceptionYear": 1964,
+  "closureYear": 1974,
+  "description": "AT&T's Picturephone, a telephone with a screen and camera shown at the 1964 New York World's Fair and offered to the public that year between booths in New York, Washington and Chicago.",
+  "failedFuture": "A phone call in which people would see each other. Calls were expensive, few people had one and fewer had anyone to call; by the mid-1970s AT&T had withdrawn it after spending hundreds of millions of dollars.",
+  "source": "Wikipedia, \"Picturephone\".",
+  "link": "https://en.wikipedia.org/wiki/Picturephone",
+  "eff": {
+   "kind": "interpretation",
+   "text": "Because the picture phone failed, seeing the person you call waited forty years for the computer and the internet: it arrived with Skype (2003) and became ordinary only in 2020, when lockdowns moved work, school and family onto video calls."
+  }
+ },
+ "0198": {
+  "year": 2020,
+  "name": "The Segway, 2001–2020",
+  "conceptionYear": 2001,
+  "closureYear": 2020,
+  "description": "The Segway Human Transporter, a self-balancing two-wheeled scooter unveiled by Dean Kamen in December 2001, announced as a machine that would change how cities are built.",
+  "failedFuture": "A personal vehicle that would replace walking and the car in city centres. It was expensive and banned from many pavements; production of the original Segway PT ended in July 2020.",
+  "source": "Wikipedia, \"Segway\".",
+  "link": "https://en.wikipedia.org/wiki/Segway",
+  "eff": {
+   "kind": "documented",
+   "text": "Because the Segway did not change cities, its technology did in another form: the Chinese company Ninebot bought Segway in 2015, and its self-balancing systems and the electric scooters that followed now fill the streets the Segway was meant to take."
+  }
+ }
+}

@@ -127,7 +127,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0005",
     "year": 1773,
-    "suffix": "",
     "name": "Ideal city of Chaux, 1773",
     "image": "/vstg/vstg-0005.webp",
     "description": "Claude-Nicolas Ledoux's Royal Saltworks at Arc-et-Senans was authorised by an edict signed on 29 April 1773, and construction began in 1775.",
@@ -175,7 +174,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0007",
     "year": 1904,
-    "suffix": "",
     "name": "Cité Industrielle",
     "image": "/vstg/vstg-0007.webp",
     "description": "Tony Garnier's model city for about 35,000 inhabitants, with separate zones for industry, housing and leisure, developed between 1901 and 1904 and published in 1917.",
@@ -223,7 +221,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0009",
     "year": 1914,
-    "suffix": "",
     "name": "Città Nuova",
     "image": "/vstg/vstg-0009.webp",
     "description": "Antonio Sant'Elia's drawings for the Città Nuova, a futurist city of towers, elevated roads and multi-level stations, shown in 1914 in Milan.",
@@ -295,7 +292,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0012",
     "year": 1951,
-    "suffix": "a",
     "name": "Pruitt–Igoe, St. Louis",
     "image": "/vstg/vstg-0012.webp",
     "description": "The Pruitt–Igoe public housing complex in St. Louis was built between 1951 and 1955. The first tenants moved into Pruitt in November 1954 and into Igoe in July 1955.",
@@ -367,7 +363,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0015",
     "year": 1967,
-    "suffix": "",
     "name": "Cumbernauld Town Centre, 1967",
     "image": "/vstg/vstg-0015.webp",
     "description": "The Centre Cumbernauld was opened on 25 May 1967 by Princess Margaret and Lord Snowdon.",
@@ -391,7 +386,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0016",
     "year": 1968,
-    "suffix": "",
     "name": "Robin Hood Gardens, London",
     "image": "/vstg/vstg-0016.webp",
     "description": "The Robin Hood Gardens housing estate in east London, by Alison and Peter Smithson, was built from 1968 and completed in 1972; the first flats opened in 1971.",
@@ -463,7 +457,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0019",
     "year": 1970,
-    "suffix": "",
     "name": "Arcosanti, 1970",
     "image": "/vstg/vstg-0019.webp",
     "description": "Paolo Soleri began building Arcosanti in 1970. The goal was for it to house 5,000 people.",
@@ -607,7 +600,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0025",
     "year": 2013,
-    "suffix": "",
     "name": "Jeddah Tower",
     "image": "/vstg/vstg-0025.webp",
     "description": "Construction of Jeddah Tower began on 1 April 2013. It was planned to be the first 1-kilometre-tall building.",
@@ -631,7 +623,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0026",
     "year": 2016,
-    "suffix": "",
     "name": "Dubai Creek Tower",
     "image": "/vstg/vstg-0026.webp",
     "description": "Groundbreaking for Dubai Creek Tower took place in October 2016. Emaar had originally discussed a minimum height of at least 1,300 metres.",
@@ -655,7 +646,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0027",
     "year": 1882,
-    "suffix": "",
     "name": "Ciudad Lineal, Madrid",
     "image": "/vstg/vstg-0027.webp",
     "description": "Arturo Soria (Madrid 1844–1920) first presented the linear city in the newspaper El Progreso in 1882. He founded the Compañía Madrileña de Urbanización in 1894, and the first section, 5.2 km long and 40 m wide between the Aragon road and Pinar de Chamartín, was finished in 1911.",
@@ -679,7 +669,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0028",
     "year": 1932,
-    "suffix": "",
     "name": "Broadacre City, 1932",
     "image": "/vstg/vstg-0028.webp",
     "description": "Frank Lloyd Wright presented Broadacre City in The Disappearing City in 1932. Taliesin student interns built a 12-by-12-foot model of a hypothetical four-square-mile community, financed by Edgar Kaufmann and first displayed on 15 April 1935 at Rockefeller Center in New York.",
@@ -846,27 +835,27 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0035",
-    "year": 1964,
-    "suffix": "a",
-    "name": "Aircraft Carrier City in Landscape",
+    "year": 1963,
+    "name": "Pennsylvania Station, New York, 1910–1963",
     "image": "/vstg/vstg-0035.webp",
-    "description": "Hans Hollein's Aircraft Carrier City in Landscape (1964): a city shaped like a carrier, laid flat over a landscape, shown in drawings and photomontages.",
-    "failedFuture": "A city that is a ship on land, with the flight deck as a public square. It was never built; the project remains a classic image of the 1960s megastructure.",
-    "source": "Museum of Modern Art (MoMA), \"Hans Hollein. Aircraft Carrier City in Landscape, project\" (work 636).",
-    "link": "https://www.moma.org/collection/works/636",
-    "license": "Image: Aircraft Carrier City in Landscape, Hans Hollein, 1964 (Hollein estate). Source: web image search. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Sin revisar para efecto presente. Se mantiene hasta encontrar una fuente o sustituirla. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
-    "level": "hypothesis",
-    "conceptionYear": 1964,
-    "closureYear": null,
+    "description": "McKim, Mead & White's Pennsylvania Station, opened in 1910: a granite gateway to New York with a waiting room modelled on the Baths of Caracalla. Demolition began on 28 October 1963.",
+    "failedFuture": "A monument meant to stand for centuries as the entrance to the city. Less than sixty years after it opened, the railroad sold the air rights and the station was torn down for Madison Square Garden; its trains were moved underground.",
+    "source": "Wikipedia, \"Pennsylvania Station (1910–1963)\"; Wikipedia, \"New York City Landmarks Preservation Commission\".",
+    "link": "https://en.wikipedia.org/wiki/Pennsylvania_Station_(1910%E2%80%931963)",
+    "license": "Passengers in the waiting room at Pennsylvania Station, New York, Library of Congress (LCCN2004670836). Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
+    "level": "documented",
+    "conceptionYear": 1902,
+    "closureYear": 1963,
     "presentEffect": {
-      "source": "Hollein, H. (1968). Alles ist Architektur. Bau, 1/2.",
-      "link": "https://www.moma.org/collection/works/636",
-      "text": "Because it was never meant to be built, its effect was on how architecture was thought: four years later Hollein declared that 'everything is architecture' (1968), and the montage, now in the collection of the Museum of Modern Art, is taught as one of the key images of the 1960s.",
-      "kind": "interpretation"
+      "text": "Because the station did not last, its loss changed how New York protects its buildings: the Landmarks Preservation Commission was created in 1965, and in 1978 the Supreme Court used that law to save Grand Central Terminal from a tower built over it. Commuters still pass through the basement it left behind.",
+      "kind": "documented",
+      "source": "Wikipedia, \"New York City Landmarks Preservation Commission\"; \"Penn Central Transportation Co. v. New York City\" (1978).",
+      "link": "https://en.wikipedia.org/wiki/New_York_City_Landmarks_Preservation_Commission"
     },
     "anchorYear": 2020,
-    "distance": 56
+    "suffix": "a",
+    "distance": 118
   },
   {
     "code": "vstg-0036",
@@ -942,27 +931,27 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0039",
-    "year": 1972,
-    "suffix": "",
-    "name": "Exodus, or the Voluntary Prisoners of Architecture",
+    "year": 1985,
+    "name": "Westway, New York, 1971–1985",
     "image": "/vstg/vstg-0039.webp",
-    "description": "Rem Koolhaas, Elia and Zoe Zenghelis and Madelon Vriesendorp's Exodus (1972): a city of walled zones in which people live as 'voluntary prisoners' of architecture, shown in drawings and text.",
-    "failedFuture": "A utopian and dystopian linear city cutting through London 'like a knife', in which people would live as voluntary prisoners of architecture. It was never built.",
-    "source": "Museum of Modern Art (MoMA), \"Exodus\" (work 104692). JSTOR Daily, \"Rem Koolhaas and the voluntary prisoners of architecture\".",
-    "link": "https://www.moma.org/collection/works/104692",
-    "license": "Image: Exodus, or the Voluntary Prisoners of Architecture, OMA / Rem Koolhaas, Elia Zenghelis, Madelon Vriesendorp and Zoe Zenghelis, 1972. Source: web image search. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Hecho verificado en Wikipedia (OMA fundada en 1975 por los mismos autores). El nexo causal con la obra de OMA es interpretación. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Westway, a 4.2-mile interstate highway planned from 1971 to run in a tunnel through new landfill along Manhattan's Hudson River shore, replacing the collapsing West Side Elevated Highway.",
+    "failedFuture": "A buried motorway along the west side of Manhattan, with new land and parks on top. A federal judge blocked it over its effect on the river's striped bass, and New York traded in the highway funds in September 1985.",
+    "source": "Wikipedia, \"Westway (New York)\".",
+    "link": "https://en.wikipedia.org/wiki/Westway_(New_York)",
+    "license": "\"Protesters demonstrating against the Westway project in New York City\". CC BY-SA 3.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1972,
-    "closureYear": null,
+    "conceptionYear": 1971,
+    "closureYear": 1985,
     "presentEffect": {
-      "text": "The city that was never built became the founding project of its authors, who formed the Office for Metropolitan Architecture in 1975. That Exodus shaped OMA's later buildings is a reading, not a claim made by a source.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Office for Metropolitan Architecture\".",
-      "link": "https://en.wikipedia.org/wiki/Office_for_Metropolitan_Architecture"
+      "text": "Because the highway was dropped, most of its federal money went to the city's subways and buses, and the riverfront was rebuilt instead as a boulevard and a park: Hudson River Park, created by law in 1998, now runs along the shore where the tunnel would have been.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Westway (New York)\"; Wikipedia, \"Hudson River Park\".",
+      "link": "https://en.wikipedia.org/wiki/Hudson_River_Park"
     },
     "anchorYear": 2020,
-    "distance": 48
+    "suffix": "a",
+    "distance": 49
   },
   {
     "code": "vstg-0040",
@@ -991,7 +980,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0041",
     "year": 1895,
-    "suffix": "",
     "name": "Tsiolkovsky's Space Tower, 1895",
     "image": "/vstg/vstg-0041.webp",
     "description": "Konstantin Tsiolkovsky's idea of a tower rising from the Earth's surface to geostationary height, so that a payload could reach orbit without rockets.",
@@ -1279,7 +1267,7 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0053",
     "year": 1963,
-    "suffix": "",
+    "suffix": "b",
     "name": "Project Orion, 1958–1965",
     "image": "/vstg/vstg-0053.webp",
     "description": "Study drawings and test models of a spacecraft driven by small nuclear explosions, developed at General Atomics between 1958 and 1965.",
@@ -1303,7 +1291,7 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0054",
     "year": 1964,
-    "suffix": "b",
+    "suffix": "a",
     "name": "Project Pluto, 1957–1964",
     "image": "/vstg/vstg-0054.webp",
     "description": "A Los Alamos programme to build a nuclear ramjet cruise missile able to fly low and at supersonic speed for hours. Cancelled in 1964.",
@@ -1399,7 +1387,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0058",
     "year": 1989,
-    "suffix": "",
     "name": "HOTOL, 1982-1989",
     "image": "/vstg/vstg-0058.webp",
     "description": "Horizontal Take-Off and Landing: a British Aerospace single-stage-to-orbit spaceplane studied from 1982 and unveiled in August 1984, aimed at launch costs of 20% of the US Space Shuttle's.",
@@ -1567,7 +1554,7 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0065",
     "year": 1976,
-    "suffix": "",
+    "suffix": "a",
     "name": "N1 rocket, Soviet lunar programme",
     "image": "/vstg/vstg-0065.webp",
     "description": "The N1, the Soviet super-heavy rocket designed to take cosmonauts to the Moon. All four launch attempts, between 1969 and 1972, failed.",
@@ -1591,7 +1578,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0066",
     "year": 1978,
-    "suffix": "",
     "name": "Project Daedalus, 1973–1978",
     "image": "/vstg/vstg-0066.webp",
     "description": "A British Interplanetary Society study for an unmanned fusion-powered probe to Barnard's Star, designed between 1973 and 1978.",
@@ -1615,7 +1601,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0067",
     "year": 1979,
-    "suffix": "",
     "name": "Solar Power Satellite, 1979",
     "image": "/vstg/vstg-0067.webp",
     "description": "NASA and the Department of Energy's 1979 studies of satellites in orbit that would collect sunlight and beam electricity to Earth by microwave.",
@@ -1879,7 +1864,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0078",
     "year": 1942,
-    "suffix": "a",
     "name": "Hughes H-4 Hercules, the Spruce Goose",
     "image": "/vstg/vstg-0078.webp",
     "description": "The development contract for the H-4 Hercules, designed by Howard Hughes after a concept by Henry J. Kaiser, was issued in 1942. It was built mostly of birch using the Duramold plywood-and-resin process.",
@@ -1903,7 +1887,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0079",
     "year": 2010,
-    "suffix": "",
     "name": "Constellation, Ares I and Ares V, 2005–2010",
     "image": "/vstg/vstg-0079.webp",
     "description": "NASA's Constellation programme, with the Ares rockets and the Orion capsule, to return to the Moon by 2020. Cancelled in 2010.",
@@ -1927,7 +1910,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0080",
     "year": 2019,
-    "suffix": "",
     "name": "Mars One, 2012–2019",
     "image": "/vstg/vstg-0080.webp",
     "description": "A private programme to establish a permanent settlement on Mars, announced in 2012 with selected candidates. The company declared bankruptcy on 15 January 2019.",
@@ -1999,7 +1981,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0083",
     "year": 1831,
-    "suffix": "",
     "name": "Gran Colombia, 1819-1831",
     "image": "/vstg/vstg-0083.webp",
     "description": "The republic proclaimed in 1819 at the Congress of Angostura and shaped by the Constitution of Cúcuta (1821), covering present-day Colombia, mainland Ecuador, Panama and Venezuela.",
@@ -2143,7 +2124,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0089",
     "year": 1839,
-    "suffix": "",
     "name": "Federal Republic of Central America, 1823-1839",
     "image": "/vstg/vstg-0089.webp",
     "description": "The federation created in 1823 from Costa Rica, El Salvador, Guatemala, Honduras and Nicaragua, with a 1824 constitution drawing on the US federal model.",
@@ -2383,7 +2363,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0099",
     "year": 1991,
-    "suffix": "",
     "name": "New Union Treaty, Soviet Union, 1991",
     "image": "/vstg/vstg-0099.webp",
     "description": "The draft treaty for a new union of sovereign Soviet republics, due to be signed at Novo-Ogaryovo on 20 August 1991. The August coup stopped the signing; the treaty was never signed.",
@@ -2431,7 +2410,7 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0101",
     "year": 1964,
-    "suffix": "c",
+    "suffix": "b",
     "name": "East African Federation, 1963-1964",
     "image": "/vstg/vstg-0101.webp",
     "description": "In June 1963 Kenyatta, Nyerere and Obote met in Nairobi and agreed to aim for an East African Federation, to include Zanzibar, by the end of that year.",
@@ -2503,7 +2482,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0104",
     "year": 1996,
-    "suffix": "",
     "name": "Comprehensive Nuclear-Test-Ban Treaty, 1996",
     "image": "/vstg/vstg-0104.webp",
     "description": "The treaty signed on 24 September 1996 banning all nuclear explosions. It has not entered into force: nine further Annex 2 states must ratify it, including the United States, China and Russia.",
@@ -2527,7 +2505,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0105",
     "year": 1923,
-    "suffix": "",
     "name": "Pan-Europa, Coudenhove-Kalergi's union",
     "image": "/vstg/vstg-0105.webp",
     "description": "Richard von Coudenhove-Kalergi's manifesto Paneuropa (1923) began the Pan-European movement. Aristide Briand gave a widely recognised speech at the League of Nations in Geneva on 5 September 1929 calling for a federal Europe.",
@@ -2551,7 +2528,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0106",
     "year": 1947,
-    "suffix": "a",
     "name": "UN Partition Plan for Palestine, 1947",
     "image": "/vstg/vstg-0106.webp",
     "description": "On 29 November 1947 the UN General Assembly voted 33 to 13, with 10 abstentions, for Resolution 181: a plan to partition Mandatory Palestine into an Arab and a Jewish state, with an international regime for Jerusalem and an economic union.",
@@ -2575,7 +2551,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0107",
     "year": 2000,
-    "suffix": "",
     "name": "Camp David Summit, 2000",
     "image": "/vstg/vstg-0107.webp",
     "description": "The summit at Camp David from 11 to 25 July 2000, hosted by Bill Clinton, between Ehud Barak and Yasser Arafat. It left Jerusalem, refugees and borders unresolved, and ended without agreement.",
@@ -2623,7 +2598,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0109",
     "year": 2004,
-    "suffix": "",
     "name": "Annan Plan, Cyprus, 2004",
     "image": "/vstg/vstg-0109.webp",
     "description": "The UN plan for the reunification of Cyprus as a federation, put to simultaneous referendums on 24 April 2004. The Turkish Cypriot vote approved it, the Greek Cypriot vote rejected it.",
@@ -2719,7 +2693,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0113",
     "year": 2007,
-    "suffix": "",
     "name": "Ahtisaari Plan, Kosovo, 2007",
     "image": "/vstg/vstg-0113.webp",
     "description": "The UN special envoy Martti Ahtisaari's proposal for the future status of Kosovo, sent to the UN Secretary-General in March 2007. It provided for a wide degree of self-government and an international supervision, without using the word independence.",
@@ -2743,7 +2716,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0114",
     "year": 2009,
-    "suffix": "",
     "name": "Copenhagen Accord, 2009",
     "image": "/vstg/vstg-0114.webp",
     "description": "The climate accord of 18 December 2009 at the COP15 in Copenhagen, which recognised the goal of limiting warming to 2 °C. It was not legally binding; delegates only took note of it.",
@@ -2767,7 +2739,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0115",
     "year": 2018,
-    "suffix": "",
     "name": "Chequers plan, 2018",
     "image": "/vstg/vstg-0115.webp",
     "description": "The UK government's Brexit proposal agreed at Chequers on 6 July 2018, a close economic relationship with the EU through a common rulebook for goods. Davis and Johnson resigned in July 2018, and the EU rejected the plan in September 2018.",
@@ -2791,7 +2762,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0116",
     "year": 1494,
-    "suffix": "",
     "name": "Leonardo's bronze horse, 1482–1499",
     "image": "/vstg/vstg-0116.webp",
     "description": "Leonardo da Vinci's equestrian monument to Ludovico Sforza, commissioned in 1482. A full-size clay model was shown in 1493; the bronze reserved for casting was given in November 1494 to make cannon for the city's defence.",
@@ -2814,32 +2784,31 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0117",
-    "year": 1505,
-    "suffix": "",
-    "name": "Leonardo's Codex on the Flight of Birds, c. 1505",
+    "year": 1962,
+    "name": "Pete Best, drummer of the Beatles, 1960–1962",
     "image": "/vstg/vstg-0117.webp",
-    "description": "Leonardo da Vinci's Codex on the Flight of Birds, c. 1505, eighteen folios with studies of bird flight and designs for flying machines. He built some of the machines and tried to launch them from a hill near Florence; the attempts failed.",
-    "failedFuture": "A flying machine studied for decades that never flew. The attempts from the hill near Florence failed.",
-    "source": "Wikipedia, \"Codex on the Flight of Birds\".",
-    "link": "https://en.wikipedia.org/wiki/Codex_on_the_Flight_of_Birds",
-    "license": "Image: \"Da Vinci codex du vol des oiseaux Luc Viatour.jpg\", by Luc Viatour. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Da_Vinci_codex_du_vol_des_oiseaux_Luc_Viatour.jpg",
-    "status": "Efecto presente verificado en Wikipedia. Efecto modesto. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Pete Best, drummer of the Beatles from August 1960, through their Hamburg years and their first EMI session. On 16 August 1962 their manager Brian Epstein told him he was out of the band.",
+    "failedFuture": "A place in the band that was about to become the most famous in the world. He was dismissed two months before their first single, and Ringo Starr took his seat.",
+    "source": "Wikipedia, \"Pete Best\".",
+    "link": "https://en.wikipedia.org/wiki/Pete_Best",
+    "license": "\"Pete Best drumming\", by Urbankayaker. Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1505,
-    "closureYear": null,
+    "conceptionYear": 1960,
+    "closureYear": 1962,
     "presentEffect": {
-      "text": "Because his machines never flew, his studies stayed as drawings, kept and dispersed for centuries. Their failure is what makes them a vestige of foresight now: the codex is shown as the start of a history of flight that others completed.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Codex on the Flight of Birds\".",
-      "link": "https://en.wikipedia.org/wiki/Codex_on_the_Flight_of_Birds"
+      "text": "Because he was dropped, Best became the most famous example of almost: he worked in a bakery and then for 20 years as a civil servant in a job centre in Liverpool. In 1995 the recordings he had played on were released on the Beatles' Anthology 1, and the royalties made him a rich man three decades late.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Pete Best\".",
+      "link": "https://en.wikipedia.org/wiki/Pete_Best"
     },
     "anchorYear": 2020,
-    "distance": 515
+    "suffix": "c",
+    "distance": 60
   },
   {
     "code": "vstg-0118",
     "year": 1545,
-    "suffix": "",
     "name": "Tomb of Pope Julius II, 1505–1545",
     "image": "/vstg/vstg-0118.webp",
     "description": "Michelangelo was commissioned in 1505 to design a monumental tomb for Pope Julius II, with about forty statues in the first plan. The reduced tomb was installed in San Pietro in Vincoli and completed in 1545 as a cenotaph.",
@@ -2863,7 +2832,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0119",
     "year": 1791,
-    "suffix": "",
     "name": "Mozart's Requiem, 1791",
     "image": "/vstg/vstg-0119.webp",
     "description": "Mozart's Requiem, commissioned anonymously in 1791 and left unfinished at his death on 5 December 1791. Only the Introitus was completed; Franz Xaver Süssmayr completed the rest.",
@@ -2887,7 +2855,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0120",
     "year": 1822,
-    "suffix": "",
     "name": "Charles Babbage, Difference Engine, 1822–1833",
     "image": "/vstg/vstg-0120.webp",
     "description": "Charles Babbage began the Difference Engine in 1822, a machine to compute mathematical tables mechanically. It was never completed: government funding ended and the project's engineer fell out with Babbage.",
@@ -2911,7 +2878,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0121",
     "year": 1828,
-    "suffix": "",
     "name": "Schubert's Symphony No. 10, 1828",
     "image": "/vstg/vstg-0121.webp",
     "description": "The unfinished Tenth Symphony of Franz Schubert. The surviving manuscript contains sketches of three movements, dated to the last weeks of the composer's life in October–November 1828.",
@@ -2935,7 +2901,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0122",
     "year": 1829,
-    "suffix": "",
     "name": "Niels Henrik Abel, 1829",
     "image": "/vstg/vstg-0122.webp",
     "description": "The Norwegian mathematician Niels Henrik Abel died of tuberculosis on 6 April 1829, aged 26. Two days before, a letter arrived offering him a professorship in Berlin, which he never received.",
@@ -2959,7 +2924,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0123",
     "year": 1832,
-    "suffix": "",
     "name": "Évariste Galois, 1832",
     "image": "/vstg/vstg-0123.webp",
     "description": "The French mathematician Évariste Galois, who died after a duel on 30 May 1832, aged 20. The night before, he wrote a letter and three manuscripts setting out his mathematical ideas.",
@@ -2983,7 +2947,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0124",
     "year": 1837,
-    "suffix": "",
     "name": "Georg Büchner, Woyzeck, 1837",
     "image": "/vstg/vstg-0124.webp",
     "description": "The German dramatist Georg Büchner died in Zurich on 19 February 1837, aged 23. His most famous play, Woyzeck, was left unfinished and exists only in fragments.",
@@ -3007,7 +2970,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0125",
     "year": 1843,
-    "suffix": "",
     "name": "Ada Lovelace, notes on the Analytical Engine, 1843",
     "image": "/vstg/vstg-0125.webp",
     "description": "Ada Lovelace's notes on Babbage's Analytical Engine, published in September 1843 in Taylor's Scientific Memoirs. Note G contains a method for calculating Bernoulli numbers. The engine was never built.",
@@ -3031,7 +2993,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0126",
     "year": 1845,
-    "suffix": "",
     "name": "Franklin expedition, 1845",
     "image": "/vstg/vstg-0126.webp",
     "description": "The British Admiralty expedition led by John Franklin, which sailed from Greenhithe on 19 May 1845 to chart the Northwest Passage. Both ships were abandoned in April 1848, and all 129 men died.",
@@ -3079,7 +3040,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0128",
     "year": 1865,
-    "suffix": "",
     "name": "Ignaz Semmelweis, 1847–1865",
     "image": "/vstg/vstg-0128.webp",
     "description": "Ignaz Semmelweis introduced chlorinated hand washing in Vienna in 1847, after the maternity clinic's mortality from puerperal fever had reached ten percent or more. Mortality fell to about two percent. He died in a mental institution in 1865.",
@@ -3103,7 +3063,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0129",
     "year": 1866,
-    "suffix": "",
     "name": "Gregor Mendel, 1865–1866",
     "image": "/vstg/vstg-0129.webp",
     "description": "Gregor Mendel presented his plant hybridisation experiments in Brno in February and March 1865 and published them in 1866. The paper was largely ignored and cited about three times in thirty-five years.",
@@ -3151,7 +3110,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0131",
     "year": 1894,
-    "suffix": "",
     "name": "Hiram Maxim's flying machine, 1894",
     "image": "/vstg/vstg-0131.webp",
     "description": "Hiram Maxim's steam-powered flying machine, tested in 1894 on a 550-metre rail track at his home in Bexley. It lifted on its track and was held down by outriggers; Maxim then abandoned the work.",
@@ -3175,7 +3133,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0132",
     "year": 1897,
-    "suffix": "",
     "name": "S. A. Andrée's balloon expedition, 1897",
     "image": "/vstg/vstg-0132.webp",
     "description": "Salomon August Andrée, Knut Frænkel and Nils Strindberg set out from Danes Island, Svalbard, on 11 July 1897, in the balloon Örnen, to reach the North Pole. The balloon came down on the ice; the remains were found in 1930.",
@@ -3199,7 +3156,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0133",
     "year": 1899,
-    "suffix": "",
     "name": "Percy Pilcher's glider, 1899",
     "image": "/vstg/vstg-0133.webp",
     "description": "The British glider pioneer Percy Pilcher died on 2 October 1899 after the structural failure of his Hawk glider at Stanford Hall, Leicestershire. He had been building a motor-driven triplane.",
@@ -3223,7 +3179,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0134",
     "year": 1903,
-    "suffix": "",
     "name": "Samuel Langley, Aerodrome, 1903",
     "image": "/vstg/vstg-0134.webp",
     "description": "The Aerodrome, a piloted flying machine built by Samuel Pierpont Langley with a War Department grant of $50,000. It failed on take-off on 7 October and 8 December 1903, and Langley gave up the project.",
@@ -3247,7 +3202,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0135",
     "year": 1908,
-    "suffix": "",
     "name": "Applications to the Academy of Fine Arts Vienna, 1907–1908",
     "image": "/vstg/vstg-0135.webp",
     "description": "Adolf Hitler applied to the Academy of Fine Arts Vienna in 1907 and again in 1908. The first attempt was judged unsatisfactory in drawing; the second was rejected again in the autumn of 1908.",
@@ -3343,7 +3297,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0139",
     "year": 1916,
-    "suffix": "a",
     "name": "Umberto Boccioni, 1916",
     "image": "/vstg/vstg-0139.webp",
     "description": "Umberto Boccioni, painter and sculptor of Italian Futurism, was thrown from his horse during cavalry training in Verona on 16 August 1916 and died the next day, aged 33. His key work, Unique Forms of Continuity in Space, was completed in 1913.",
@@ -3366,27 +3319,27 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0140",
-    "year": 1916,
-    "suffix": "b",
-    "name": "Franz Marc, 1916",
+    "year": 1976,
+    "name": "Ronald Wayne, the third founder of Apple, 1976",
     "image": "/vstg/vstg-0140.webp",
-    "description": "Franz Marc, founder of the journal Der Blaue Reiter in 1911, was killed on 4 March 1916 at the Battle of Verdun, aged 36.",
-    "failedFuture": "The founder of Der Blaue Reiter was killed at Verdun, at 36.",
-    "source": "Wikipedia, \"Franz Marc\".",
-    "link": "https://en.wikipedia.org/wiki/Franz_Marc",
-    "license": "Image: \"Marc, Franz - Blue Horse I - Google Art Project.jpg\", by Franz Marc. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Marc,_Franz_-_Blue_Horse_I_-_Google_Art_Project.jpg",
-    "status": "Efecto presente verificado en Wikipedia. Concepción = año de la muerte. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Ronald Wayne drew Apple's first logo and wrote its partnership agreement, signed on 1 April 1976 with Steve Jobs and Steve Wozniak, which gave him 10% of the company.",
+    "failedFuture": "A tenth of Apple. Twelve days after signing, Wayne withdrew from the partnership and sold his share for $800, fearing the debts of a business he did not believe in; he later accepted $1,500 to give up any further claim.",
+    "source": "Wikipedia, \"Ronald Wayne\"; Fortune, \"Apple cofounder sold 10% stake for $800\".",
+    "link": "https://en.wikipedia.org/wiki/Ronald_Wayne",
+    "license": "Apple's first logo, drawn by Ronald Wayne (1976). Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1916,
-    "closureYear": 1916,
+    "conceptionYear": 1976,
+    "closureYear": 1976,
     "presentEffect": {
-      "text": "Because Marc died at 36, Der Blaue Reiter lost its founder and his work was fixed as the work of a short career. It was then branded 'degenerate' and removed from German museums; returned and restituted, his paintings now sell for record prices, such as The Foxes, £42.6 million in 2022.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Franz Marc\".",
-      "link": "https://en.wikipedia.org/wiki/Franz_Marc"
+      "text": "Because he left, Apple became Jobs and Wozniak's alone, and his tenth turned into a figure people still calculate: Fortune estimated it would be worth about $400 billion. Wayne has said he made the right decision with what he knew; he sold his copy of the founding contract in the 1990s for $500, and in 2011 it was auctioned for $1.6 million.",
+      "kind": "attributed",
+      "source": "Wikipedia, \"Ronald Wayne\"; Fortune, \"Apple cofounder sold 10% stake for $800\".",
+      "link": "https://en.wikipedia.org/wiki/Ronald_Wayne"
     },
     "anchorYear": 2020,
-    "distance": 104
+    "suffix": "b",
+    "distance": 44
   },
   {
     "code": "vstg-0141",
@@ -3606,27 +3559,26 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0150",
-    "year": 1942,
-    "suffix": "b",
-    "name": "Robert Musil, The Man Without Qualities, 1921–1942",
+    "year": 1913,
+    "name": "Jim Thorpe's Olympic medals, 1912–1913",
     "image": "/vstg/vstg-0150.webp",
-    "description": "Robert Musil began The Man Without Qualities in 1921. Volumes were published in 1930 and 1933; Musil died in 1942 with the novel unfinished. His widow published the literary remains in 1943.",
-    "failedFuture": "A novel that its author worked on for the rest of his life and never finished. The posthumous material was assembled by his widow.",
-    "source": "Wikipedia, \"The Man Without Qualities\".",
-    "link": "https://en.wikipedia.org/wiki/The_Man_Without_Qualities",
-    "license": "Image: \"Musil.jpg\", by unknown author. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Musil.jpg",
-    "status": "Efecto presente verificado en Wikipedia. Efecto modesto. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Jim Thorpe, of the Sac and Fox Nation, won the pentathlon and the decathlon at the 1912 Stockholm Olympics. In January 1913 newspapers revealed he had been paid to play minor-league baseball.",
+    "failedFuture": "An Olympic champion's career. In 1913 the Amateur Athletic Union and the IOC stripped him of his titles and medals for having been paid as an athlete.",
+    "source": "Wikipedia, \"Jim Thorpe\".",
+    "link": "https://en.wikipedia.org/wiki/Jim_Thorpe",
+    "license": "\"Jim Thorpe, 1912 Summer Olympics\", Agence Rol. Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1921,
-    "closureYear": 1942,
+    "conceptionYear": 1912,
+    "closureYear": 1913,
     "presentEffect": {
-      "text": "Because Musil never finished it, the novel has no ending, and every edition has to decide how to present the drafts his widow published in 1943. Its incompleteness has become part of how it is read.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"The Man Without Qualities\".",
-      "link": "https://en.wikipedia.org/wiki/The_Man_Without_Qualities"
+      "text": "Because the titles were taken, Thorpe spent his life outside the record books he had set, and died in 1953 without them. The IOC restored his medals as co-champion in 1982 and, after a long campaign, recognised him as sole champion of both events in July 2022, 110 years later.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Jim Thorpe\".",
+      "link": "https://en.wikipedia.org/wiki/Jim_Thorpe"
     },
     "anchorYear": 2020,
-    "distance": 99
+    "distance": 108
   },
   {
     "code": "vstg-0151",
@@ -3727,7 +3679,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0155",
     "year": 1986,
-    "suffix": "",
     "name": "Len Bias, unused jersey No. 30",
     "image": "/vstg/vstg-0155.webp",
     "description": "Len Bias was chosen second overall by the Boston Celtics in the 1986 NBA draft. He died on 19 June 1986 of a cardiac arrhythmia related to cocaine use, two days after the draft.",
@@ -3750,32 +3701,30 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0156",
-    "year": 1817,
-    "suffix": "",
-    "name": "Solresol, the musical language",
+    "year": 1795,
+    "name": "Decimal time, France, 1793–1795",
     "image": "/vstg/vstg-0156.webp",
-    "description": "Jean-François Sudre began presenting Solresol in 1817. It is built on the seven solfège syllables do, re, mi, fa, sol, la, si. His book Langue musicale universelle appeared posthumously in 1866.",
-    "failedFuture": "A universal language that could be sung, whistled or played on instruments. Today small communities of enthusiasts keep it alive.",
-    "source": "Wikipedia, \"Solresol\".",
-    "link": "https://en.wikipedia.org/wiki/Solresol",
-    "license": "Image: Title page of \"Langue musicale universelle\" and grammar of Solresol (Sudre). Source: studylibfr.com. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Efecto presente verificado en Wikipedia. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "A clock face divided into ten hours of 100 minutes each, the time system decreed by the French Republic in November 1793, beside the new metric measures.",
+    "failedFuture": "A day measured like the metre: ten hours, a hundred minutes, a hundred seconds. People would not change their clocks, and its mandatory use was suspended on 7 April 1795.",
+    "source": "Wikipedia, \"Decimal time\".",
+    "link": "https://en.wikipedia.org/wiki/Decimal_time",
+    "license": "\"Décimal clock\", by Mikaël Restoux. CC BY-SA 3.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1817,
-    "closureYear": null,
+    "conceptionYear": 1793,
+    "closureYear": 1795,
     "presentEffect": {
-      "text": "Because it never became universal, Solresol survives only through small groups of enthusiasts who publish dictionaries and software, from 1997 to 2018: a world language kept as a hobby.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Solresol\".",
-      "link": "https://en.wikipedia.org/wiki/Solresol"
+      "text": "Because decimal time failed, the metric system was decimal everywhere except in time: the same law of 1795 that created the metre and the gram suspended the ten-hour day, which is why the world still counts in 24 hours, 60 minutes and 60 seconds.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Decimal time\".",
+      "link": "https://en.wikipedia.org/wiki/Decimal_time"
     },
     "anchorYear": 2020,
-    "distance": 203
+    "distance": 227
   },
   {
     "code": "vstg-0157",
     "year": 1880,
-    "suffix": "",
     "name": "Volapük, the first planned world language",
     "image": "/vstg/vstg-0157.webp",
     "description": "Johann Martin Schleyer published a sketch of Volapük in May 1879 and a full book in 1880. By 1889 there were an estimated 283 clubs, and the language claimed nearly a million adherents.",
@@ -3799,7 +3748,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0158",
     "year": 1854,
-    "suffix": "",
     "name": "The Deseret alphabet",
     "image": "/vstg/vstg-0158.webp",
     "description": "A 38-letter phonetic alphabet developed from 1847 by the University of Deseret's board of regents under Brigham Young, with George D. Watt designing most glyphs. The board approved it on 19 January 1854.",
@@ -3823,7 +3771,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0159",
     "year": 1910,
-    "suffix": "",
     "name": "The Mundaneum",
     "image": "/vstg/vstg-0159.webp",
     "description": "An institution created in 1910 by the Belgian lawyers Paul Otlet and Henri La Fontaine to gather the world's knowledge and classify it under the Universal Decimal Classification; it first occupied a wing of the Cinquantenaire Palace in Brussels.",
@@ -3846,27 +3793,27 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0160",
-    "year": 1907,
-    "suffix": "",
-    "name": "Ido, the Esperanto reform",
+    "year": 1962,
+    "name": "The Decca audition, 1 January 1962",
     "image": "/vstg/vstg-0160.webp",
-    "description": "Ido was created in 1907 as a reform of Esperanto. Louis Couturat formed the Delegation for the Adoption of an International Auxiliary Language; the language was devised mainly by Louis de Beaufront.",
-    "failedFuture": "A reformed Esperanto that would replace the original as the international language. The reform split the movement in 1907; Ido remained a small language, with a few thousand speakers at most.",
-    "source": "Wikipedia, \"Ido (language)\".",
-    "link": "https://en.wikipedia.org/wiki/Ido_(language)",
-    "license": "Image: \"Ido Kongreso en Dessau 1922.jpg\", Ido congress in Dessau, 1922. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Ido_Kongreso_en_Dessau_1922.jpg",
-    "status": "Efecto presente verificado en Wikipedia. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "On 1 January 1962 the Beatles recorded fifteen songs at Decca Studios in West Hampstead, London, as an audition for the label.",
+    "failedFuture": "The Beatles as a Decca band. The label chose another group, Brian Poole and the Tremeloes, and Epstein recalled being told that guitar groups were on their way out.",
+    "source": "Wikipedia, \"Decca audition\"; Wikipedia, \"Dick Rowe\".",
+    "link": "https://en.wikipedia.org/wiki/Decca_audition",
+    "license": "Lilian Baylis House, West Hampstead, the former Decca Studios, by Jim Osley (geograph 7396758). CC BY-SA 2.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1907,
-    "closureYear": null,
+    "conceptionYear": 1962,
+    "closureYear": 1962,
     "presentEffect": {
-      "text": "Because the reform did not replace Esperanto, the original kept its form and became the most spoken planned language, while Ido lives on in a small community that still holds yearly conventions.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Ido (language)\".",
-      "link": "https://en.wikipedia.org/wiki/Ido_(language)"
+      "text": "Because Decca said no, the Beatles signed with EMI's Parlophone in 1962 and spent their career there. Decca's Dick Rowe, remembered as the man who turned them down, signed the Rolling Stones in 1963 on a tip from George Harrison.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Decca audition\"; Wikipedia, \"Dick Rowe\".",
+      "link": "https://en.wikipedia.org/wiki/Decca_audition"
     },
     "anchorYear": 2020,
-    "distance": 113
+    "suffix": "d",
+    "distance": 58
   },
   {
     "code": "vstg-0161",
@@ -3919,7 +3866,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0163",
     "year": 1919,
-    "suffix": "",
     "name": "The Bauhaus, Weimar and Berlin",
     "image": "/vstg/vstg-0163.webp",
     "description": "Walter Gropius founded the Bauhaus in Weimar on 1 April 1919. Its last location was Berlin, where it closed in 1933.",
@@ -3967,31 +3913,30 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0165",
     "year": 1922,
-    "suffix": "c",
-    "name": "Occidental, later Interlingue",
+    "name": "Esperanto at the League of Nations, 1920–1922",
     "image": "/vstg/vstg-0165.webp",
-    "description": "Edgar de Wahl announced Occidental in 1922 with the first issue of Cosmoglotta in Tallinn. It was renamed Interlingue in 1949, to show neutrality towards the Soviet Union and to prepare for closer ties with Interlingua.",
-    "failedFuture": "A language popular in Europe before the war. WWII disrupted it: it was banned in Germany, Austria and Czechoslovakia. The major decline followed Interlingua's 1951 debut.",
-    "source": "Wikipedia, \"Interlingue\".",
-    "link": "https://en.wikipedia.org/wiki/Interlingue",
-    "license": "Image: \"First issue of Cosmoglotta, 1922.jpg\", by David Droz. CC BY 4.0. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:First_issue_of_Cosmoglotta,_1922.jpg",
-    "status": "Efecto presente verificado en Wikipedia. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
-    "level": "documented",
-    "conceptionYear": 1922,
-    "closureYear": null,
+    "description": "In 1920, after a report by under-secretary Nitobe Inazō, a group of delegates proposed that the League of Nations adopt Esperanto for international relations.",
+    "failedFuture": "A neutral international language taught in every school and spoken between states. Ten delegates accepted it; the French delegate Gabriel Hanotaux voted against, and France used its veto to block it.",
+    "source": "Wikipedia, \"History of Esperanto\".",
+    "link": "https://en.wikipedia.org/wiki/History_of_Esperanto",
+    "license": "\"Esperanto as an international auxiliary language\", report of the League of Nations Secretariat, 1922. Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
+    "level": "hypothesis",
+    "conceptionYear": 1920,
+    "closureYear": 1922,
     "presentEffect": {
-      "text": "Because the war and Interlingua's arrival in 1951 drew its speakers away, Occidental survived only as a small circle of writers; the journal Cosmoglotta, begun in 1922, is still published, and the language has a Wikipedia edition.",
+      "text": "Because the League did not adopt a neutral language, international life went on in the languages of the great powers: the League worked in French and English, the United Nations inherited them, and English has since become the world's common language, the role Esperanto was proposed for.",
       "kind": "interpretation",
-      "source": "Wikipedia, \"Interlingue\".",
-      "link": "https://en.wikipedia.org/wiki/Interlingue"
+      "source": "Wikipedia, \"History of Esperanto\".",
+      "link": "https://en.wikipedia.org/wiki/History_of_Esperanto"
     },
     "anchorYear": 2020,
-    "distance": 98
+    "suffix": "c",
+    "distance": 100
   },
   {
     "code": "vstg-0166",
     "year": 1927,
-    "suffix": "",
     "name": "Yañalif, the Latin alphabet for Soviet Turkic languages",
     "image": "/vstg/vstg-0166.webp",
     "description": "Yañalif, a Latin-based alphabet devised for Turkic languages, was adopted in Tatarstan in 1927; its final version came in 1928. It was used for Tatar and Bashkir and other Soviet languages.",
@@ -4014,32 +3959,30 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0167",
-    "year": 1950,
-    "suffix": "",
-    "name": "The Shavian alphabet",
+    "year": 2002,
+    "name": "Samnorsk, one Norwegian, 1917–2002",
     "image": "/vstg/vstg-0167.webp",
-    "description": "A phonetic alphabet called for in George Bernard Shaw's will of 1950. After his death in November 1950 and a legal dispute, the Public Trustee announced a design competition; four designers won and Ronald Kingsley Read combined their designs.",
-    "failedFuture": "A new alphabet intended to replace English spelling. The only book the trust could afford was the bi-alphabetic Penguin edition of Androcles and the Lion in 1962; Read published eight issues of the journal Shaw-Script in 1963–1965.",
-    "source": "Wikipedia, \"Shavian alphabet\".",
-    "link": "https://en.wikipedia.org/wiki/Shavian_alphabet",
-    "license": "Image: \"Shavian alphabet - Alice's Adventures in Wonderland - book cover.jpg\", by John Tenniel. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Shavian_alphabet_-_Alice's_Adventures_in_Wonderland_-_book_cover.jpg",
-    "status": "Efecto presente verificado en Wikipedia. La ficha no data el concurso en 1958–59. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Samnorsk, 'common Norwegian': the official policy of bringing Norway's two written standards, Bokmål and Nynorsk, closer through spelling reforms in 1917, 1938 and 1959, until they could merge.",
+    "failedFuture": "A single written Norwegian. The reforms provoked resistance, including parents' campaigns that corrected their children's textbooks by hand, and the policy was formally abandoned in 2002.",
+    "source": "Britannica, \"Samnorsk\"; Wikipedia, \"Norwegian language conflict\".",
+    "link": "https://www.britannica.com/topic/Samnorsk",
+    "license": "Map of Norwegian municipalities by school written standard, 2021, by Pengemann. CC BY-SA 4.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1950,
-    "closureYear": null,
+    "conceptionYear": 1917,
+    "closureYear": 2002,
     "presentEffect": {
-      "text": "Because Shavian never replaced English spelling, it survived only as a hobby: added to Unicode in 2003, it is kept alive by small editions such as Alice's Adventures in Wonderland (2013) and Pride and Prejudice (2019).",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Shavian alphabet\".",
-      "link": "https://en.wikipedia.org/wiki/Shavian_alphabet"
+      "text": "Because the two standards did not merge, Norway still writes in two official forms: every pupil learns both Bokmål and Nynorsk, and public bodies must use both.",
+      "kind": "documented",
+      "source": "Britannica, \"Samnorsk\"; Wikipedia, \"Norwegian language conflict\".",
+      "link": "https://www.britannica.com/topic/Samnorsk"
     },
     "anchorYear": 2020,
-    "distance": 70
+    "distance": 103
   },
   {
     "code": "vstg-0168",
     "year": 1929,
-    "suffix": "a",
     "name": "Uzbek in the Latin alphabet, 1929–1940",
     "image": "/vstg/vstg-0168.webp",
     "description": "Uzbek was switched to the Latin alphabet in 1929. In 1940 it was switched to Cyrillic under Stalin. In 1992 the Latin alphabet was officially reintroduced.",
@@ -4110,27 +4053,26 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0171",
-    "year": 1935,
-    "suffix": "b",
-    "name": "The Sun Language Theory",
+    "year": 1805,
+    "name": "The French Republican calendar, 1793–1805",
     "image": "/vstg/vstg-0171.webp",
-    "description": "Turkish linguists of the Turkish Language Society developed the Sun Language Theory over about ten months in late 1935 and early 1936, presenting it at the Third Turkish Language Congress. It claims all languages descend from a proto-Turkic primal language.",
-    "failedFuture": "A state-backed theory that Turkish was the source of all languages. It lost its prominent role shortly after Atatürk's death in November 1938, and it was not mentioned at the 1942 Turkish Language Congress.",
-    "source": "Wikipedia, \"Sun Language Theory\".",
-    "link": "https://en.wikipedia.org/wiki/Sun_Language_Theory",
-    "license": "Image: Cumhuriyet newspaper on the Sun Language Theory. Source: gunesinsan.com. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Efecto presente verificado en Wikipedia. Efecto débil: la ficha menciona el eco de 2018 sin establecer causalidad; interpretación de la ficha, no hecho documentado. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "The calendar of the French Republic, used from 1793: twelve months of thirty days named after the seasons, such as Brumaire, Germinal and Thermidor, and years counted from the Republic's founding in 1792.",
+    "failedFuture": "A new time for a new society, counted from Year I of the Republic and free of saints and kings. Napoleon abolished it with effect from 1 January 1806.",
+    "source": "Wikipedia, \"French Republican calendar\".",
+    "link": "https://en.wikipedia.org/wiki/French_Republican_calendar",
+    "license": "French Republican calendar, engraving by Philibert-Louis Debucourt. Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1935,
-    "closureYear": 1938,
+    "conceptionYear": 1793,
+    "closureYear": 1805,
     "presentEffect": {
-      "text": "Because the theory was quietly abandoned after 1938, the purge of foreign words from Turkish slowed: Ghil'ad Zuckermann suggests the theory itself served to keep Arabic and Persian words that could not be removed.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Sun Language Theory\".",
-      "link": "https://en.wikipedia.org/wiki/Sun_Language_Theory"
+      "text": "Because the calendar did not last, its months survive as names for moments of the Revolution: 'Thermidor' became the word for a revolution turning back on itself, the '18 Brumaire' for a seizure of power, and Zola's Germinal (1885) took its title from it.",
+      "kind": "documented",
+      "source": "Wikipedia, \"French Republican calendar\".",
+      "link": "https://en.wikipedia.org/wiki/French_Republican_calendar"
     },
     "anchorYear": 2020,
-    "distance": 85
+    "distance": 227
   },
   {
     "code": "vstg-0172",
@@ -4159,7 +4101,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0173",
     "year": 1939,
-    "suffix": "",
     "name": "Azerbaijani script, Cyrillic from 1939",
     "image": "/vstg/vstg-0173.webp",
     "description": "Stalin ordered the switch of the Azerbaijani script from Latin to Cyrillic in 1939. The table in the article lists Cyrillic use from 1939 to 1958.",
@@ -4254,27 +4195,27 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0177",
-    "year": 1951,
-    "suffix": "b",
-    "name": "Interlingua, the Gode language",
+    "year": 1922,
+    "name": "An Irish-speaking Ireland, 1922",
     "image": "/vstg/vstg-0177.webp",
-    "description": "The International Auxiliary Language Association (IALA) presented Interlingua in 1951, with the finalised grammar and the Interlingua–English Dictionary. Alexander Gode led the final development phase.",
-    "failedFuture": "An auxiliary language that drew speakers away from Interlingue. Only a few hundred people actively speak it according to the 2007 figure. It has no regulating body and is taught in some schools and universities.",
-    "source": "Wikipedia, \"Interlingua\".",
-    "link": "https://en.wikipedia.org/wiki/Interlingua",
-    "license": "Image: Interlingua–English Dictionary (IALA, 1951). Source: amazon.com. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Efecto presente verificado en Wikipedia. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "The Gaelic League, founded in 1893, and later the Irish Free State, established in 1922, set out to make Irish the everyday language of the country again, through schools and the civil service.",
+    "failedFuture": "A nation that would speak Irish at home and in the street. Irish became compulsory in schools and the first official language, but English remained the language of daily life.",
+    "source": "Central Statistics Office, Census 2022 Summary Results: Education and Irish Language.",
+    "link": "https://www.cso.ie/en/releasesandpublications/ep/p-cpsr/censusofpopulation2022-summaryresults/educationandirishlanguage",
+    "license": "\"An Gaeltacht sign in Knocknacarra\". CC0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1951,
+    "conceptionYear": 1893,
     "closureYear": null,
     "presentEffect": {
-      "text": "Because it never became an international language, Interlingua survives as a small community, a few hundred active speakers in 2007, with a bimonthly magazine and biennial conferences.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Interlingua\".",
-      "link": "https://en.wikipedia.org/wiki/Interlingua"
+      "text": "Because the revival did not reach daily life, Ireland lives with a gap between knowing and speaking: in Census 2022, 1,873,997 people said they could speak Irish, but only 71,968 spoke it daily outside school.",
+      "kind": "documented",
+      "source": "Central Statistics Office, Census 2022 Summary Results: Education and Irish Language.",
+      "link": "https://www.cso.ie/en/releasesandpublications/ep/p-cpsr/censusofpopulation2022-summaryresults/educationandirishlanguage"
     },
     "anchorYear": 2020,
-    "distance": 69
+    "suffix": "d",
+    "distance": 127
   },
   {
     "code": "vstg-0178",
@@ -4302,32 +4243,31 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0179",
-    "year": 1998,
-    "suffix": "",
-    "name": "Lingua Franca Nova, presented online",
+    "year": 1957,
+    "name": "Black Mountain College, 1933–1957",
     "image": "/vstg/vstg-0179.webp",
-    "description": "C. George Boeree of Shippensburg University began designing Lingua Franca Nova in 1965 and first presented it on the internet in 1998. Users further developed it; Boeree died on 5 January 2021.",
-    "failedFuture": "A simple world language based on the Romance languages, designed by C. George Boeree from 1965 and first presented online in 1998.",
-    "source": "Wikipedia, \"Lingua Franca Nova\".",
-    "link": "https://en.wikipedia.org/wiki/Lingua_Franca_Nova",
-    "license": "Image: \"Leteratur romanica e elefen.png\", by Vicente Costalago. CC BY-SA 4.0. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Leteratur_romanica_e_elefen.png",
-    "status": "Efecto presente verificado en Wikipedia. Concepción: diseño desde 1965; presentación en internet en 1998. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Black Mountain College in North Carolina, founded in 1933 as an experimental school where the arts were at the centre of education; Josef and Anni Albers came from the closed Bauhaus to teach there.",
+    "failedFuture": "A small college run by its teachers and students, where art would shape a whole way of learning and living. It closed in 1957, short of money and students.",
+    "source": "Wikipedia, \"Black Mountain College\".",
+    "link": "https://en.wikipedia.org/wiki/Black_Mountain_College",
+    "license": "\"Black Mountain College\", Lake Eden campus. Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1965,
-    "closureYear": null,
+    "conceptionYear": 1933,
+    "closureYear": 1957,
     "presentEffect": {
-      "text": "Because it never became a world language, it survived its creator, who died in 2021, as a community project: a Wikipedia edition from 2018, a printed dictionary of more than 20,000 entries and a first original novel in 2020.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Lingua Franca Nova\".",
-      "link": "https://en.wikipedia.org/wiki/Lingua_Franca_Nova"
+      "text": "Because the college closed, the people it had gathered took its experiments into American art: John Cage, Merce Cunningham, Robert Rauschenberg and Ruth Asawa had taught or studied there, and Cage's 1952 untitled event there is counted as the first 'happening'.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Black Mountain College\".",
+      "link": "https://en.wikipedia.org/wiki/Black_Mountain_College"
     },
     "anchorYear": 2020,
-    "distance": 55
+    "suffix": "b",
+    "distance": 87
   },
   {
     "code": "vstg-0180",
     "year": 2017,
-    "suffix": "",
     "name": "Kazakhstan's Latin alphabet plan, postponed to 2031",
     "image": "/vstg/vstg-0180.webp",
     "description": "Kazakhstan announced a switch from Cyrillic to the Latin alphabet in April 2017 and ordered it by presidential decree in October 2017, with the switch due by 2025.",
@@ -4351,7 +4291,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0181",
     "year": 1788,
-    "suffix": "",
     "name": "Gleaning and the right of the poor",
     "image": "/vstg/vstg-0181.webp",
     "description": "Gleaning, the collection of crops left in the field after harvest, was a legal right of the poor in many European places. In eighteenth-century England landless cottagers held it, and a village sexton rang a bell to mark when gleaning began and ended. The custom has biblical roots in Leviticus and Deuteronomy.",
@@ -4374,51 +4313,50 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0182",
-    "year": 1846,
-    "suffix": "",
-    "name": "The Public Baths and Wash-houses Act",
+    "year": 1933,
+    "name": "Prohibition in the United States, 1920–1933",
     "image": "/vstg/vstg-0182.webp",
-    "description": "The Public Baths and Wash-houses Act received royal assent on 26 August 1846. It let local authorities in England and Wales spend their own funds on building public swimming baths.",
-    "failedFuture": "Public baths as the hygiene of every city, built by councils from 1846 so that the poor could wash. Private bathrooms made them unnecessary.",
-    "source": "Wikipedia, \"Public bathing\".",
-    "link": "https://en.wikipedia.org/wiki/Public_bathing",
-    "license": "Image: Interior of a Victorian public wash-house and baths. Source: bathsandwashhouses.co.uk. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Efecto presente verificado en Wikipedia. Efecto modesto: la ficha no dice cuáles edificios están catalogados. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "The Eighteenth Amendment, in force from 17 January 1920, banned the manufacture, transport and sale of alcoholic drinks across the United States.",
+    "failedFuture": "A dry nation, sober and free of the saloon. Drinking went underground, and the Twenty-first Amendment repealed Prohibition on 5 December 1933.",
+    "source": "Wikipedia, \"Prohibition in the United States\".",
+    "link": "https://en.wikipedia.org/wiki/Prohibition_in_the_United_States",
+    "license": "Deputy Police Commissioner John A. Leach watching agents pour liquor into a sewer, New York, Library of Congress (LCCN99405169). Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1846,
-    "closureYear": null,
+    "conceptionYear": 1919,
+    "closureYear": 1933,
     "presentEffect": {
-      "text": "Because bathing moved into homes, the public baths lost their purpose and became something else: they survive almost only as swimming pools and listed buildings.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Public bathing\".",
-      "link": "https://en.wikipedia.org/wiki/Public_bathing"
+      "text": "Because the dry nation failed, it left behind what grew in its place: organised crime financed by bootlegging, and stock-car racing, born from the souped-up cars of moonshine runners, from which NASCAR was founded in 1948. Some counties in the United States are still dry today.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Prohibition in the United States\".",
+      "link": "https://en.wikipedia.org/wiki/Prohibition_in_the_United_States"
     },
     "anchorYear": 2020,
-    "distance": 174
+    "distance": 101
   },
   {
     "code": "vstg-0183",
-    "year": 1875,
-    "suffix": "",
-    "name": "Chimney sweeps and the boys who climbed",
+    "year": 1985,
+    "name": "New Coke, 1985",
     "image": "/vstg/vstg-0183.webp",
-    "description": "The Chimney Sweepers and Chimneys Regulation Act of 1840 made it illegal for anyone under 21 to sweep chimneys, though it was widely ignored. Lord Shaftesbury pushed the Chimney Sweepers Act through Parliament in September 1875, which finally stopped the practice of sending boys up chimneys.",
-    "failedFuture": "A trade that would go on sending boys up chimneys: the 1840 law banning it was widely ignored, and climbing boys kept working until the 1875 Act.",
-    "source": "Wikipedia, \"Chimney sweep\".",
-    "link": "https://en.wikipedia.org/wiki/Chimney_sweep",
-    "license": "Image: \"The Chimney Sweep (Hardy).jpg\", by Frederick Daniel Hardy. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:The_Chimney_Sweep_(Hardy).jpg",
-    "status": "Efecto presente verificado en Wikipedia. Concepción: ley de 1840 (ignorada hasta 1875). [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "On 23 April 1985 the Coca-Cola Company replaced its 99-year-old formula with a new, sweeter one, marketed as 'New Coke', after blind taste tests against Pepsi.",
+    "failedFuture": "A new taste for the world's best-known drink. Consumers protested and hoarded the old formula, and on 11 July 1985, after 79 days, the company brought it back as Coca-Cola Classic.",
+    "source": "Wikipedia, \"New Coke\".",
+    "link": "https://en.wikipedia.org/wiki/New_Coke",
+    "license": "\"Newcokebottle2\". Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1840,
-    "closureYear": 1875,
+    "conceptionYear": 1985,
+    "closureYear": 1985,
     "presentEffect": {
-      "text": "Because the climbing boys disappeared, the sweep survived as a figure of luck and folklore rather than of child labour: in Britain a sweep on a wedding day is still considered lucky, and Rochester revived its Sweeps' Festival in 1980.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Chimney sweep\".",
-      "link": "https://en.wikipedia.org/wiki/Chimney_sweep"
+      "text": "Because the new taste was rejected, the old one returned stronger than before, and New Coke became the case taught in business schools on the attachment people feel to a brand. In 2019 the company briefly brought it back as a prop of nostalgia for the series Stranger Things.",
+      "kind": "documented",
+      "source": "Wikipedia, \"New Coke\".",
+      "link": "https://en.wikipedia.org/wiki/New_Coke"
     },
     "anchorYear": 2020,
-    "distance": 180
+    "suffix": "b",
+    "distance": 35
   },
   {
     "code": "vstg-0184",
@@ -4447,7 +4385,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0185",
     "year": 1888,
-    "suffix": "",
     "name": "The matchgirls' strike, Bryant & May",
     "image": "/vstg/vstg-0185.webp",
     "description": "In July 1888 women and girls at Bryant & May's match factory in Bow, London, walked out over unfair fines, deductions from pay and dangerous conditions. About 1,400 had refused to work by the end of the first day.",
@@ -4471,7 +4408,7 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0186",
     "year": 1985,
-    "suffix": "",
+    "suffix": "c",
     "name": "Blockbuster, the video rental chain",
     "image": "/vstg/vstg-0186.webp",
     "description": "David Cook opened the first Blockbuster in Dallas, Texas, on 19 October 1985. By 2004 it had more than 9,000 stores and 84,300 employees.",
@@ -4494,32 +4431,31 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0187",
-    "year": 1929,
-    "suffix": "b",
-    "name": "The telegram at its peak",
+    "year": 1988,
+    "name": "Betamax, 1975–1988",
     "image": "/vstg/vstg-0187.webp",
-    "description": "Telegrams peaked in the late nineteenth and early twentieth centuries. An estimated 200 million were sent in 1929.",
-    "failedFuture": "The telegram as the fastest way to send words across the world. About 200 million were sent in 1929; the telephone and then text messaging made it obsolete.",
-    "source": "Wikipedia, \"Telegram\".",
-    "link": "https://en.wikipedia.org/wiki/Telegram",
-    "license": "Image: \"Postal Telegraph boy, Danville, Va. LOC nclc.03719.jpg\", by Lewis Wickes Hine. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Postal_Telegraph_boy,_Danville,_Va._LOC_nclc.03719.jpg",
-    "status": "Efecto presente verificado en Wikipedia. La ficha no da año de concepción del telégrafo en este contexto; distancia no calculada. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "Sony's Betamax, the home videocassette format launched in 1975, which let people record television and watch films at home.",
+    "failedFuture": "The format of home video. VHS, launched by JVC in 1976 with longer tapes and more licensed manufacturers, overtook it; in 1988 Sony began making VHS recorders itself.",
+    "source": "Wikipedia, \"Betamax\"; Wikipedia, \"Sony Corp. of America v. Universal City Studios, Inc.\".",
+    "link": "https://en.wikipedia.org/wiki/Betamax",
+    "license": "\"Betamax Cassette\", by Echtner. CC BY-SA 4.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": null,
-    "closureYear": null,
+    "conceptionYear": 1975,
+    "closureYear": 1988,
     "presentEffect": {
-      "text": "Because the telegram disappeared, what survives is its name and form: diplomatic cables still carry the name, and a messaging service, Telegram, took it.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Telegram\".",
-      "link": "https://en.wikipedia.org/wiki/Telegram"
+      "text": "Its defeat left something larger than the format: the 1984 Betamax case, in which the US Supreme Court ruled that recording television at home is fair use, still protects technologies that can copy. And the 'format war' became the lesson every new standard is measured against.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Betamax\"; Wikipedia, \"Sony Corp. of America v. Universal City Studios, Inc.\".",
+      "link": "https://en.wikipedia.org/wiki/Betamax"
     },
     "anchorYear": 2020,
-    "distance": null
+    "distance": 45
   },
   {
     "code": "vstg-0188",
     "year": 1935,
-    "suffix": "c",
+    "suffix": "b",
     "name": "Organ grinder and the barrel organ",
     "image": "/vstg/vstg-0188.webp",
     "description": "Organ grinders with barrel organs were common street performers in Europe and New York in the nineteenth century. By 1880 nearly one in twenty Italian men in certain areas were organ grinders.",
@@ -4542,32 +4478,31 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0189",
-    "year": 1947,
-    "suffix": "b",
-    "name": "Hansom cab, from patent to last licence",
+    "year": 1982,
+    "name": "Metric America, 1975–1982",
     "image": "/vstg/vstg-0189.webp",
-    "description": "Joseph Hansom patented the hansom cab in 1834. It became the most common vehicle for hire in the nineteenth century and was exported to Europe, other British colonies and the United States.",
-    "failedFuture": "The horse-drawn cab as the city's vehicle for hire. Motor taxis replaced it from 1908; the last London licence was given up in 1947.",
-    "source": "Wikipedia, \"Hansom cab\".",
-    "link": "https://en.wikipedia.org/wiki/Hansom_cab",
-    "license": "Image: \"Adolphe Valette Hansom Cab at All Saints.jpg\", by Pierre Adolphe Valette. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Adolphe_Valette_Hansom_Cab_at_All_Saints.jpg",
-    "status": "Efecto presente verificado en Wikipedia. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "The Metric Conversion Act of 1975 declared the metric system the preferred system of weights and measures for US trade and commerce, and set up a Metric Board to plan the change.",
+    "failedFuture": "A United States measured in metres and kilograms like most of the world. Conversion was voluntary, the public resisted, and the Metric Board was abolished in 1982.",
+    "source": "Wikipedia, \"Metrication in the United States\"; NASA, Mars Climate Orbiter Mishap Investigation Board report (1999).",
+    "link": "https://en.wikipedia.org/wiki/Metrication_in_the_United_States",
+    "license": "\"Mars Climate Orbiter during tests\", NASA. Public domain. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": 1834,
-    "closureYear": 1947,
+    "conceptionYear": 1975,
+    "closureYear": 1982,
     "presentEffect": {
-      "text": "Because motor taxis replaced it, the hansom survives only as an image of the Victorian city, kept by museums and rented as a prop for period films.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Hansom cab\".",
-      "link": "https://en.wikipedia.org/wiki/Hansom_cab"
+      "text": "Because the change stopped halfway, the United States lives with two systems at once, and their meeting can be costly: in 1999 NASA lost the Mars Climate Orbiter because one team's software used pound-force units where another expected metric ones. Interstate 19 in Arizona still shows distances in kilometres.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Metrication in the United States\"; NASA, Mars Climate Orbiter Mishap Investigation Board report (1999).",
+      "link": "https://en.wikipedia.org/wiki/Metrication_in_the_United_States"
     },
     "anchorYear": 2020,
-    "distance": 186
+    "distance": 45
   },
   {
     "code": "vstg-0190",
     "year": 1957,
-    "suffix": "b",
+    "suffix": "c",
     "name": "Lamplighter and the gas street lamp",
     "image": "/vstg/vstg-0190.webp",
     "description": "Lamplighters lit and extinguished the gas street lamps of cities. Gas lighting took over from candles and oil lamps after Frederick Albert Winsor's 1807 exhibition. Baltimore removed nearly all of its gas streetlights in 1957.",
@@ -4591,7 +4526,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0191",
     "year": 1965,
-    "suffix": "",
     "name": "The rag-and-bone man",
     "image": "/vstg/vstg-0191.webp",
     "description": "The rag-and-bone man collected rags, bones, metal and paper from households and sold them to merchants, usually on foot or with a horse-drawn cart. Henry Mayhew's 1851 report counted 800 to 1,000 'bone-grubbers and rag-gatherers' in London alone.",
@@ -4663,7 +4597,6 @@ export const VSTG: Vstg[] = [
   {
     "code": "vstg-0194",
     "year": 1984,
-    "suffix": "",
     "name": "The Paris pneumatic post",
     "image": "/vstg/vstg-0194.webp",
     "description": "The Paris pneumatic post used compressed air in tubes to carry messages across the city. By 1934 the network reached about 467 km in total length.",
@@ -4710,27 +4643,27 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0196",
-    "year": null,
-    "suffix": "",
-    "name": "Knocker-up, the human alarm clock",
+    "year": 1974,
+    "name": "The Picturephone, 1964–1974",
     "image": "/vstg/vstg-0196.webp",
-    "description": "Knocker-uppers were paid to wake sleeping workers so they could reach work on time. They tapped on windows with a baton or a long, light stick, often bamboo. The role began during the Industrial Revolution in Britain, the Netherlands and Ireland.",
-    "failedFuture": "A working day that began when a knocker-up tapped on the window with a long stick. Alarm clocks ended the trade, which survived in parts of England until the early 1970s.",
-    "source": "Wikipedia, \"Knocker-up\".",
-    "link": "https://en.wikipedia.org/wiki/Knocker-up",
-    "license": "Image: A knocker-up waking workers with a long pole. Source: medium.com. Used in a non-profit academic archive; contact to credit or remove.",
-    "status": "Efecto presente verificado en Wikipedia. Efecto modesto; sin año de concepción confirmado. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
-    "level": "documented",
-    "conceptionYear": null,
-    "closureYear": null,
+    "description": "AT&T's Picturephone, a telephone with a screen and camera shown at the 1964 New York World's Fair and offered to the public that year between booths in New York, Washington and Chicago.",
+    "failedFuture": "A phone call in which people would see each other. Calls were expensive, few people had one and fewer had anyone to call; by the mid-1970s AT&T had withdrawn it after spending hundreds of millions of dollars.",
+    "source": "Wikipedia, \"Picturephone\".",
+    "link": "https://en.wikipedia.org/wiki/Picturephone",
+    "license": "\"1969 AT&T Picturephone Model 2 at the Early Television Museum\", by DogsRNice. CC BY-SA 4.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
+    "level": "hypothesis",
+    "conceptionYear": 1964,
+    "closureYear": 1974,
     "presentEffect": {
-      "text": "Because the alarm clock replaced the person, the knocker-up survives only as a memory: boards kept in miners' homes in County Durham were saved in 2019, and the figure appears in picture books and musicals.",
+      "text": "Because the picture phone failed, seeing the person you call waited forty years for the computer and the internet: it arrived with Skype (2003) and became ordinary only in 2020, when lockdowns moved work, school and family onto video calls.",
       "kind": "interpretation",
-      "source": "Wikipedia, \"Knocker-up\".",
-      "link": "https://en.wikipedia.org/wiki/Knocker-up"
+      "source": "Wikipedia, \"Picturephone\".",
+      "link": "https://en.wikipedia.org/wiki/Picturephone"
     },
     "anchorYear": 2020,
-    "distance": null
+    "suffix": "d",
+    "distance": 56
   },
   {
     "code": "vstg-0197",
@@ -4758,27 +4691,26 @@ export const VSTG: Vstg[] = [
   },
   {
     "code": "vstg-0198",
-    "year": null,
-    "suffix": "",
-    "name": "Night soil and the gong farmers",
+    "year": 2020,
+    "name": "The Segway, 2001–2020",
     "image": "/vstg/vstg-0198.webp",
-    "description": "Night soil collectors removed excreta from privies and cesspits. In Tudor England they were called 'gong farmers'; later they were called 'night soil men' or 'nightmen'. Rapid urbanisation in the nineteenth century led to outhouse-based collection systems such as the Rochdale system.",
-    "failedFuture": "Cities cleaned by night-soil men who carried away human waste and sold it as fertiliser. Sewers replaced the system from the late nineteenth century.",
-    "source": "Wikipedia, \"Night soil\".",
-    "link": "https://en.wikipedia.org/wiki/Night_soil",
-    "license": "Image: \"London Nightmen.jpg\", by Henry Mayhew, London Labour and the London Poor. Public domain. Via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:London_Nightmen.jpg",
-    "status": "Efecto presente verificado en Wikipedia. [2026-11-05] [f.f. eff.] reescrito: qué produjo que este futuro no ocurriera.",
+    "description": "The Segway Human Transporter, a self-balancing two-wheeled scooter unveiled by Dean Kamen in December 2001, announced as a machine that would change how cities are built.",
+    "failedFuture": "A personal vehicle that would replace walking and the car in city centres. It was expensive and banned from many pavements; production of the original Segway PT ended in July 2020.",
+    "source": "Wikipedia, \"Segway\".",
+    "link": "https://en.wikipedia.org/wiki/Segway",
+    "license": "\"Segway PT (2006)\", by Nick Gray. CC BY-SA 2.0. Via Wikimedia Commons.",
+    "status": "[2026-11-05] Sustituye a un registro con efecto flojo. Datos de Wikipedia/fuente citada; imagen nueva desde Commons.",
     "level": "documented",
-    "conceptionYear": null,
-    "closureYear": null,
+    "conceptionYear": 2001,
+    "closureYear": 2020,
     "presentEffect": {
-      "text": "Because sewers replaced it, the trade disappeared from most cities, and where it survives it marks who has no sewer: manual scavenging was still reported in India in 2014, despite its ban in 1993.",
-      "kind": "interpretation",
-      "source": "Wikipedia, \"Night soil\".",
-      "link": "https://en.wikipedia.org/wiki/Night_soil"
+      "text": "Because the Segway did not change cities, its technology did in another form: the Chinese company Ninebot bought Segway in 2015, and its self-balancing systems and the electric scooters that followed now fill the streets the Segway was meant to take.",
+      "kind": "documented",
+      "source": "Wikipedia, \"Segway\".",
+      "link": "https://en.wikipedia.org/wiki/Segway"
     },
     "anchorYear": 2020,
-    "distance": null
+    "distance": 19
   },
   {
     "code": "vstg-0199",
