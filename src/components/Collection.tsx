@@ -12,6 +12,11 @@ import {
 } from "@/lib/demo-collection";
 
 const BLUR = 14;
+// The blur is smooth by nature, so it is computed at half resolution: the same look at a fraction of the cost.
+// (Lowering the quality instead leaves a faint lattice in photographs, so that stays at 4.)
+const BLUR_QUALITY = 4;
+const BLUR_RESOLUTION = 0.5;
+const MAX_PIXEL_RATIO = 2; // 3x screens would draw 2.25x more pixels for no visible gain
 const GRAIN = 0.07; // strength of the film grain over photographs: opacity of the darkest and lightest specks
 
 // One small noise tile, shared by every photograph. Half of the specks are black and half white
@@ -132,7 +137,15 @@ type PieceNode = {
   label: HTMLDivElement; // the code, under the piece, as normal HTML text
   blur: BlurFilter;
   piece: Piece;
+  upgrade: () => void; // swaps the light browsing image for the full-size one
+  labelTransform: string; // last value written to the label, so the page is only touched when it changes
+  labelAlpha: string;
 };
+
+// Browsing uses a light copy of each image (made by scripts/thumbnails.mjs); opening a piece loads the original.
+function thumbUrl(image: string): string {
+  return image.replace(/\/([^/]+)\.(webp|jpe?g)$/i, "/t/$1.webp");
+}
 type BlockView = { container: Container; ids: string[] };
 
 // A bracketed label that rewrites itself into its unabbreviated form when touched
@@ -245,7 +258,7 @@ export default function Collection({
         background: 0xffffff,
         antialias: true,
         autoDensity: true,
-        resolution: window.devicePixelRatio || 1,
+        resolution: Math.min(MAX_PIXEL_RATIO, window.devicePixelRatio || 1),
       });
 
       if (destroyed) {
@@ -253,6 +266,16 @@ export default function Collection({
         return;
       }
       app = instance;
+
+      // The scene is only drawn when something changes. A still plane costs nothing,
+      // which keeps phones cool and leaves the full frame budget to the moments that move.
+      instance.ticker.remove(instance.render, instance);
+      let wakeFrames = 3;
+      const wake = (frames = 3) => {
+        if (frames > wakeFrames) wakeFrames = frames;
+      };
+      const onResize = () => wake(4);
+      window.addEventListener("resize", onResize);
       host.appendChild(instance.canvas);
 
       const stage = instance.stage;
@@ -315,6 +338,8 @@ export default function Collection({
         for (const entry of nodes.values()) {
           entry.body.eventMode = focusedId ? "none" : "static";
         }
+        if (piece) nodes.get(piece.id)?.upgrade();
+        wake(6);
         setFocused(piece);
         notifyRef.current(piece);
       }
@@ -328,6 +353,7 @@ export default function Collection({
         targetScale = next;
         targetX = sx - wx * next;
         targetY = sy - wy * next;
+        wake();
       }
       zoomRef.current = (factor: number) => {
         zoomAt(factor, instance.screen.width / 2, instance.screen.height / 2);
@@ -363,6 +389,7 @@ export default function Collection({
           }
           const t = Math.min(1, Math.max(0, (performance.now() - frameStart) / FRAME_FADE_MS));
           swatch.alpha = t * t * (3 - 2 * t);
+          wake();
           if (t >= 1) instance.ticker.remove(fadeFrame);
         };
         instance.ticker.add(fadeFrame);
@@ -384,22 +411,45 @@ export default function Collection({
         }
 
         // Real photographs are .webp (or .jpg); the grey .png files are still placeholders and are not loaded.
+        let upgrade = () => {};
         if (piece.image && /\.(webp|jpe?g)$/.test(piece.image)) {
-          const url = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${piece.image}`;
+
+          const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+          const url = `${base}${thumbUrl(piece.image)}`;
+          const fullUrl = `${base}${piece.image}`;
+          let photo: Sprite | null = null;
+          // Fill the frame, cropped from the centre.
+          const fit = (sprite: Sprite, texture: Texture) => {
+            const k = Math.max(piece.w / texture.width, piece.h / texture.height);
+            sprite.scale.set(k);
+            sprite.position.set((piece.w - texture.width * k) / 2, (piece.h - texture.height * k) / 2);
+          };
+          let fullRequested = false;
+          upgrade = () => {
+            if (fullRequested) return;
+            fullRequested = true;
+            Assets.load(fullUrl)
+              .then((texture) => {
+                if (!photo || photo.destroyed) return;
+                photo.texture = texture;
+                fit(photo, texture);
+                wake();
+              })
+              .catch(() => {});
+          };
           Assets.load(url)
             .then((texture) => {
               if (inner.destroyed) return;
               const sprite = new Sprite(texture);
-              // Fill the frame, cropped from the centre.
-              const k = Math.max(piece.w / texture.width, piece.h / texture.height);
-              sprite.scale.set(k);
-              sprite.position.set((piece.w - texture.width * k) / 2, (piece.h - texture.height * k) / 2);
+              photo = sprite;
+              fit(sprite, texture);
               inner.addChildAt(sprite, 1);
               // A fine, neutral film grain over the photograph.
               const grain = new TilingSprite({ texture: grainTexture(), width: piece.w, height: piece.h });
               grain.alpha = GRAIN;
               inner.addChildAt(grain, 2);
               grainOf.set(piece.id, grain);
+              wake();
 
               // The photograph dissolves in over the colour frame, grain by grain, instead of popping in.
               const dissolve = dissolveFilter(piece.w, piece.h);
@@ -413,6 +463,7 @@ export default function Collection({
                   instance.ticker.remove(run);
                   return;
                 }
+                wake();
                 const t = Math.min(1, Math.max(0, (performance.now() - t0) / DISSOLVE_MS));
                 const eased = t * t * (3 - 2 * t);
                 dissolve.resources.dissolveUniforms.uniforms.uProgress = eased;
@@ -429,7 +480,7 @@ export default function Collection({
             .catch(() => {});
         }
 
-        const blur = new BlurFilter({ strength: BLUR });
+        const blur = new BlurFilter({ strength: BLUR, quality: BLUR_QUALITY, resolution: BLUR_RESOLUTION });
         inner.filters = [blur];
         body.addChild(inner);
 
@@ -451,7 +502,7 @@ export default function Collection({
         label.replaceChildren(...codeParts(`[${piece.code}]`));
         labelLayer.appendChild(label);
 
-        return { node: root, body, label, blur, piece };
+        return { node: root, body, label, blur, piece, upgrade, labelTransform: "", labelAlpha: "" };
       }
 
       function addBlock(c: number, b: number) {
@@ -480,18 +531,68 @@ export default function Collection({
         blocks.delete(key);
       }
 
-      // Press and hold, then move, to pan. A short press without movement is a click.
-      stage.on("pointerdown", (e) => {
-        dragging = true;
-        dragDistance = 0;
-        last = { x: e.global.x, y: e.global.y };
-      });
-      const endDrag = () => {
-        dragging = false;
+      // One finger (or the mouse) pans. Two fingers pinch to zoom and pan at once.
+      const pointers = new Map<number, { x: number; y: number }>();
+      let pinchDist = 0;
+      let pinchMid = { x: 0, y: 0 };
+      const pinchState = () => {
+        const [p1, p2] = [...pointers.values()];
+        return {
+          dist: Math.hypot(p2.x - p1.x, p2.y - p1.y),
+          mid: { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 },
+        };
       };
-      stage.on("pointerup", endDrag);
-      stage.on("pointerupoutside", endDrag);
+      stage.on("pointerdown", (e) => {
+        if (e.pointerType === "mouse") pointers.clear();
+        pointers.set(e.pointerId, { x: e.global.x, y: e.global.y });
+        if (pointers.size === 1) {
+          dragging = true;
+          dragDistance = 0;
+          last = { x: e.global.x, y: e.global.y };
+        } else if (pointers.size === 2) {
+          // A pinch is never a click.
+          dragging = false;
+          dragDistance = Infinity;
+          const st = pinchState();
+          pinchDist = st.dist;
+          pinchMid = st.mid;
+        }
+      });
+      const endPointer = (e: { pointerId: number }) => {
+        pointers.delete(e.pointerId);
+        if (pointers.size === 1) {
+          // One finger stays down after a pinch: keep panning from where it is, without a jump.
+          const [rest] = [...pointers.values()];
+          dragging = true;
+          last = { x: rest.x, y: rest.y };
+        } else if (pointers.size === 0) {
+          dragging = false;
+        } else {
+          const st = pinchState();
+          pinchDist = st.dist;
+          pinchMid = st.mid;
+        }
+      };
+      stage.on("pointerup", endPointer);
+      stage.on("pointerupoutside", endPointer);
+      stage.on("pointercancel", endPointer);
       stage.on("globalpointermove", (e) => {
+        const tracked = pointers.get(e.pointerId);
+        if (tracked) {
+          tracked.x = e.global.x;
+          tracked.y = e.global.y;
+        }
+        if (pointers.size >= 2) {
+          if (focusedId) return;
+          const st = pinchState();
+          if (pinchDist > 0 && st.dist > 0) zoomAt(st.dist / pinchDist, st.mid.x, st.mid.y);
+          targetX += st.mid.x - pinchMid.x;
+          targetY += st.mid.y - pinchMid.y;
+          pinchDist = st.dist;
+          pinchMid = st.mid;
+          wake();
+          return;
+        }
         if (!dragging) return;
         const dx = e.global.x - last.x;
         const dy = e.global.y - last.y;
@@ -500,6 +601,7 @@ export default function Collection({
         if (focusedId) return;
         targetX += dx;
         targetY += dy;
+        wake();
       });
       stage.on("pointertap", (e) => {
         if (e.target === backdrop && focusedId && dragDistance <= DRAG_TOLERANCE) {
@@ -511,6 +613,7 @@ export default function Collection({
       const onWheel = (e: WheelEvent) => {
         e.preventDefault();
         if (focusedId) return;
+        wake();
         if (e.ctrlKey) {
           const rect = host.getBoundingClientRect();
           zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - rect.left, e.clientY - rect.top);
@@ -521,6 +624,10 @@ export default function Collection({
         targetY -= e.deltaY * unit;
       };
       host.addEventListener("wheel", onWheel, { passive: false });
+      // Safari on iPhone fires its own gesture events for a pinch; the plane handles the pinch itself.
+      const stopGesture = (e: Event) => e.preventDefault();
+      host.addEventListener("gesturestart", stopGesture);
+      host.addEventListener("gesturechange", stopGesture);
 
       const onKey = (e: KeyboardEvent) => {
         if (e.key === "Escape") setFocus(null);
@@ -534,6 +641,22 @@ export default function Collection({
         window.removeEventListener("keydown", onKey);
         window.removeEventListener("vstg:close", onCloseRequest);
         host.removeEventListener("wheel", onWheel);
+        host.removeEventListener("gesturestart", stopGesture);
+        host.removeEventListener("gesturechange", stopGesture);
+        window.removeEventListener("resize", onResize);
+      };
+
+      // Moves a value toward its target and snaps once it is close enough, so easing always comes to rest.
+      // Returns true while it is still moving.
+      let moving = false;
+      const approach = (current: number, target: number, k: number, eps: number) => {
+        const d = target - current;
+        if (Math.abs(d) <= eps) {
+          if (d !== 0) moving = true; // one last frame to land exactly on the target
+          return target;
+        }
+        moving = true;
+        return current + d * k;
       };
 
       instance.ticker.add((ticker) => {
@@ -541,6 +664,7 @@ export default function Collection({
         const sw = instance.screen.width;
         const sh = instance.screen.height;
         drawBackdrop();
+        moving = false;
 
         // An open piece is centred at normal size, with its code and text below it.
         if (focusedId) {
@@ -560,48 +684,60 @@ export default function Collection({
 
         // The plane eases toward its targets and rests there.
         const ease = Math.min(1, 0.18 * dt);
-        scale += (targetScale - scale) * ease;
+        scale = approach(scale, targetScale, ease, 0.0002);
         world.scale.set(scale);
-        world.x += (targetX - world.x) * ease;
-        world.y += (targetY - world.y) * ease;
+        world.x = approach(world.x, targetX, ease, 0.05);
+        world.y = approach(world.y, targetY, ease, 0.05);
 
         for (const [id, entry] of nodes) {
           const isFocus = id === focusedId;
           const k = Math.min(1, 0.12 * dt);
-
-          // While a piece is open, everything else disappears.
-          const targetAlpha = focusedId && !isFocus ? 0 : 1;
-          entry.node.alpha += (targetAlpha - entry.node.alpha) * k;
-
-          // Public pieces reveal on hover or focus. Private pieces stay blurred.
-          const isPublic = entry.piece.visibility === "public";
-          // Hover lifts half of the blur; opening the piece removes the rest.
-          const targetBlur = !isPublic ? BLUR : isFocus ? 0 : !focusedId && hoveredId === id ? BLUR * 0.5 : BLUR;
-          entry.blur.strength += (targetBlur - entry.blur.strength) * Math.min(1, 0.15 * dt);
-
-          const targetNodeScale = isFocus ? focusScale(entry.piece.h) : 1;
-          entry.node.scale.set(entry.node.scale.x + (targetNodeScale - entry.node.scale.x) * k);
-          // Keep the grain one device pixel fine whatever the zoom.
-          grainOf.get(id)?.tileScale.set(1 / (entry.node.scale.x * world.scale.x));
-
-          // The code follows the piece and stays just below its visible edge.
-          const s = entry.node.scale.x;
           const cx = entry.piece.x + entry.piece.w / 2;
           const cy = entry.piece.y + entry.piece.h / 2;
-          // Positioned on screen, directly below the visible edge of the piece.
-          const screenX = world.x + cx * scale;
-          const screenY = world.y + (cy + (entry.piece.h * s) / 2) * scale + 10;
-          entry.label.style.transform = `translate(${screenX}px, ${screenY}px) translateX(-50%)`;
-          entry.label.style.opacity = String(entry.node.alpha);
 
-          // Only what is on screen is drawn, so the total number of pieces does not slow the plane.
+          // Where the piece is on screen decides whether it needs any work at all.
+          const s = entry.node.scale.x;
           const pl = world.x + (cx - (entry.piece.w * s) / 2) * scale;
           const pt = world.y + (cy - (entry.piece.h * s) / 2) * scale;
           const pr = pl + entry.piece.w * s * scale;
           const pb = pt + entry.piece.h * s * scale + 60;
           const onScreen = pr > -120 && pl < sw + 120 && pb > -120 && pt < sh + 120;
           entry.node.visible = onScreen;
-          entry.label.style.display = onScreen ? "" : "none";
+          if (!onScreen) {
+            if (entry.label.style.display !== "none") entry.label.style.display = "none";
+            continue;
+          }
+
+          // While a piece is open, everything else disappears.
+          const targetAlpha = focusedId && !isFocus ? 0 : 1;
+          entry.node.alpha = approach(entry.node.alpha, targetAlpha, k, 0.004);
+
+          // Public pieces reveal on hover or focus. Private pieces stay blurred.
+          const isPublic = entry.piece.visibility === "public";
+          // Hover lifts half of the blur; opening the piece removes the rest.
+          const targetBlur = !isPublic ? BLUR : isFocus ? 0 : !focusedId && hoveredId === id ? BLUR * 0.5 : BLUR;
+          entry.blur.strength = approach(entry.blur.strength, targetBlur, Math.min(1, 0.15 * dt), 0.05);
+
+          const targetNodeScale = isFocus ? focusScale(entry.piece.h) : 1;
+          entry.node.scale.set(approach(s, targetNodeScale, k, 0.0005));
+          // Keep the grain one device pixel fine whatever the zoom.
+          grainOf.get(id)?.tileScale.set(1 / (entry.node.scale.x * world.scale.x));
+
+          // The code follows the piece and stays just below its visible edge.
+          const s2 = entry.node.scale.x;
+          const screenX = world.x + cx * scale;
+          const screenY = world.y + (cy + (entry.piece.h * s2) / 2) * scale + 10;
+          const transform = `translate(${screenX.toFixed(1)}px, ${screenY.toFixed(1)}px) translateX(-50%)`;
+          if (transform !== entry.labelTransform) {
+            entry.labelTransform = transform;
+            entry.label.style.transform = transform;
+          }
+          const alpha = entry.node.alpha.toFixed(3);
+          if (alpha !== entry.labelAlpha) {
+            entry.labelAlpha = alpha;
+            entry.label.style.opacity = alpha;
+          }
+          if (entry.label.style.display === "none") entry.label.style.display = "";
         }
 
         // Stream only the columns and blocks that are on screen, at the current zoom.
@@ -626,6 +762,14 @@ export default function Collection({
               if (!blocks.has(`${c},${b}`)) addBlock(c, b);
             }
           }
+          wake();
+        }
+
+        // Draw only when something moved, faded, loaded or changed size.
+        if (moving) wake(2);
+        if (wakeFrames > 0) {
+          wakeFrames--;
+          instance.render();
         }
       });
     })();

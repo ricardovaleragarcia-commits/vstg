@@ -268,6 +268,10 @@ button:disabled {
 .collection-host {
   position: absolute;
   inset: 0;
+  /* Codes of pieces just beyond the screen edge must not widen the page: on a phone that made the browser
+     zoom the whole page out and fight the plane's own pinch. */
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 /* Text of the open piece, placed under its code. */
@@ -473,6 +477,7 @@ button:disabled {
 .piece-labels {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
   z-index: 2.5;
 }
@@ -789,4 +794,13 @@ button:disabled {
 .manifesto-legal__text a {
   color: #fff;
   text-decoration: underline;
+}
+
+/* The plane handles its own gestures (drag, pinch, wheel), so the browser must not scroll or zoom the page under it. */
+.collection-host,
+.collection-host canvas {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
