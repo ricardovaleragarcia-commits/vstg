@@ -4,12 +4,14 @@
   "private": true,
   "description": "Digital archive of traces from failed futures",
   "scripts": {
+    "predev": "node scripts/thumbnails.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/dominant-colors.mjs",
+    "prebuild": "node scripts/dominant-colors.mjs && node scripts/thumbnails.mjs",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "colors": "node scripts/dominant-colors.mjs"
+    "colors": "node scripts/dominant-colors.mjs",
+    "thumbs": "node scripts/thumbnails.mjs"
   },
   "dependencies": {
     "@fontsource/stix-two-text": "^5.0.0",
