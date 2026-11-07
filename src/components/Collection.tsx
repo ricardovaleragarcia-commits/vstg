@@ -111,8 +111,18 @@ const MAX_ZOOM = 1.25;
 const INITIAL_ZOOM = 0.72; // the page opens zoomed out, so more pieces are visible at once
 
 // Used by both the canvas and the text panel, so they always agree.
-export function focusScale(h: number): number {
-  return Math.min(1.5, (window.innerHeight * FOCUS_HEIGHT_RATIO) / h);
+// An open piece never grows wider than the screen either, so on a phone it is not cropped at the sides.
+export function focusScale(h: number, w = 0): number {
+  const byHeight = (window.innerHeight * FOCUS_HEIGHT_RATIO) / h;
+  const byWidth = w > 0 ? (window.innerWidth * 0.92) / w : Infinity;
+  return Math.min(1.5, byHeight, byWidth);
+}
+
+// Where the open piece, its code and its text start. The top edge keeps room for the Close button.
+const MIN_GROUP_TOP = 88;
+export function focusGroupTop(imgH: number, detailH: number): number {
+  const groupH = imgH + CODE_GAP + detailH;
+  return Math.max(MIN_GROUP_TOP, window.innerHeight / 2 - groupH / 2);
 }
 
 // Splits a code so that its digits can be set smaller, to match small capitals.
@@ -531,69 +541,23 @@ export default function Collection({
         blocks.delete(key);
       }
 
-      // One finger (or the mouse) pans. Two fingers pinch to zoom and pan at once.
-      const pointers = new Map<number, { x: number; y: number }>();
-      let pinchDist = 0;
-      let pinchMid = { x: 0, y: 0 };
-      const pinchState = () => {
-        const [p1, p2] = [...pointers.values()];
-        return {
-          dist: Math.hypot(p2.x - p1.x, p2.y - p1.y),
-          mid: { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 },
-        };
-      };
+      // One finger (or the mouse) pans. Two fingers pinch, handled below with native touch events,
+      // which phones deliver reliably (including inside in-app browsers) where pointer events can be cancelled.
+      let pinching = false;
       stage.on("pointerdown", (e) => {
-        if (e.pointerType === "mouse") pointers.clear();
-        pointers.set(e.pointerId, { x: e.global.x, y: e.global.y });
-        if (pointers.size === 1) {
-          dragging = true;
-          dragDistance = 0;
-          last = { x: e.global.x, y: e.global.y };
-        } else if (pointers.size === 2) {
-          // A pinch is never a click.
-          dragging = false;
-          dragDistance = Infinity;
-          const st = pinchState();
-          pinchDist = st.dist;
-          pinchMid = st.mid;
-        }
+        if (pinching) return;
+        dragging = true;
+        dragDistance = 0;
+        last = { x: e.global.x, y: e.global.y };
       });
-      const endPointer = (e: { pointerId: number }) => {
-        pointers.delete(e.pointerId);
-        if (pointers.size === 1) {
-          // One finger stays down after a pinch: keep panning from where it is, without a jump.
-          const [rest] = [...pointers.values()];
-          dragging = true;
-          last = { x: rest.x, y: rest.y };
-        } else if (pointers.size === 0) {
-          dragging = false;
-        } else {
-          const st = pinchState();
-          pinchDist = st.dist;
-          pinchMid = st.mid;
-        }
+      const endDrag = () => {
+        dragging = false;
       };
-      stage.on("pointerup", endPointer);
-      stage.on("pointerupoutside", endPointer);
-      stage.on("pointercancel", endPointer);
+      stage.on("pointerup", endDrag);
+      stage.on("pointerupoutside", endDrag);
+      stage.on("pointercancel", endDrag);
       stage.on("globalpointermove", (e) => {
-        const tracked = pointers.get(e.pointerId);
-        if (tracked) {
-          tracked.x = e.global.x;
-          tracked.y = e.global.y;
-        }
-        if (pointers.size >= 2) {
-          if (focusedId) return;
-          const st = pinchState();
-          if (pinchDist > 0 && st.dist > 0) zoomAt(st.dist / pinchDist, st.mid.x, st.mid.y);
-          targetX += st.mid.x - pinchMid.x;
-          targetY += st.mid.y - pinchMid.y;
-          pinchDist = st.dist;
-          pinchMid = st.mid;
-          wake();
-          return;
-        }
-        if (!dragging) return;
+        if (!dragging || pinching) return;
         const dx = e.global.x - last.x;
         const dy = e.global.y - last.y;
         last = { x: e.global.x, y: e.global.y };
@@ -603,6 +567,60 @@ export default function Collection({
         targetY += dy;
         wake();
       });
+
+      let pinchDist = 0;
+      let pinchMid = { x: 0, y: 0 };
+      const pinchOf = (t: TouchList) => {
+        const rect = host.getBoundingClientRect();
+        const a = t[0];
+        const b = t[1];
+        return {
+          dist: Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY),
+          mid: { x: (a.clientX + b.clientX) / 2 - rect.left, y: (a.clientY + b.clientY) / 2 - rect.top },
+        };
+      };
+      const onTouchStart = (e: TouchEvent) => {
+        if (e.touches.length < 2) return;
+        pinching = true;
+        dragging = false;
+        dragDistance = Infinity; // a pinch is never a click
+        const st = pinchOf(e.touches);
+        pinchDist = st.dist;
+        pinchMid = st.mid;
+        e.preventDefault();
+      };
+      const onTouchMove = (e: TouchEvent) => {
+        if (!pinching) return;
+        e.preventDefault();
+        if (e.touches.length < 2 || focusedId) return;
+        const st = pinchOf(e.touches);
+        if (pinchDist > 0 && st.dist > 0) zoomAt(st.dist / pinchDist, st.mid.x, st.mid.y);
+        targetX += st.mid.x - pinchMid.x;
+        targetY += st.mid.y - pinchMid.y;
+        pinchDist = st.dist;
+        pinchMid = st.mid;
+        wake();
+      };
+      const onTouchEnd = (e: TouchEvent) => {
+        if (e.touches.length >= 2) {
+          const st = pinchOf(e.touches);
+          pinchDist = st.dist;
+          pinchMid = st.mid;
+          return;
+        }
+        if (!pinching) return;
+        pinching = false;
+        if (e.touches.length === 1) {
+          // One finger stays down: keep panning from where it is, without a jump.
+          const rect = host.getBoundingClientRect();
+          last = { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+          dragging = true;
+        }
+      };
+      host.addEventListener("touchstart", onTouchStart, { passive: false });
+      host.addEventListener("touchmove", onTouchMove, { passive: false });
+      host.addEventListener("touchend", onTouchEnd);
+      host.addEventListener("touchcancel", onTouchEnd);
       stage.on("pointertap", (e) => {
         if (e.target === backdrop && focusedId && dragDistance <= DRAG_TOLERANCE) {
           setFocus(null);
@@ -641,6 +659,10 @@ export default function Collection({
         window.removeEventListener("keydown", onKey);
         window.removeEventListener("vstg:close", onCloseRequest);
         host.removeEventListener("wheel", onWheel);
+        host.removeEventListener("touchstart", onTouchStart);
+        host.removeEventListener("touchmove", onTouchMove);
+        host.removeEventListener("touchend", onTouchEnd);
+        host.removeEventListener("touchcancel", onTouchEnd);
         host.removeEventListener("gesturestart", stopGesture);
         host.removeEventListener("gesturechange", stopGesture);
         window.removeEventListener("resize", onResize);
@@ -671,14 +693,13 @@ export default function Collection({
           const entry = nodes.get(focusedId);
           if (entry) {
             const p = entry.piece;
-            const imgH = p.h * focusScale(p.h);
-            const groupH = imgH + CODE_GAP + detailHRef.current;
-            const groupTop = sh / 2 - groupH / 2;
+            const imgH = p.h * focusScale(p.h, p.w);
+            const groupTop = focusGroupTop(imgH, detailHRef.current);
             targetScale = 1;
             targetX = sw / 2 - (p.x + p.w / 2);
             targetY = groupTop + imgH / 2 - (p.y + p.h / 2);
             // The close button sits halfway between the top of the screen and the top of the open piece.
-            document.documentElement.style.setProperty("--close-y", `${groupTop / 2}px`);
+            document.documentElement.style.setProperty("--close-y", `${Math.max(36, groupTop / 2)}px`);
           }
         }
 
@@ -718,7 +739,7 @@ export default function Collection({
           const targetBlur = !isPublic ? BLUR : isFocus ? 0 : !focusedId && hoveredId === id ? BLUR * 0.5 : BLUR;
           entry.blur.strength = approach(entry.blur.strength, targetBlur, Math.min(1, 0.15 * dt), 0.05);
 
-          const targetNodeScale = isFocus ? focusScale(entry.piece.h) : 1;
+          const targetNodeScale = isFocus ? focusScale(entry.piece.h, entry.piece.w) : 1;
           entry.node.scale.set(approach(s, targetNodeScale, k, 0.0005));
           // Keep the grain one device pixel fine whatever the zoom.
           grainOf.get(id)?.tileScale.set(1 / (entry.node.scale.x * world.scale.x));
@@ -785,9 +806,8 @@ export default function Collection({
 
   let detailTop = 0;
   if (focused) {
-    const imgH = focused.h * focusScale(focused.h);
-    const groupH = imgH + CODE_GAP + detailH;
-    detailTop = window.innerHeight / 2 - groupH / 2 + imgH + CODE_GAP;
+    const imgH = focused.h * focusScale(focused.h, focused.w);
+    detailTop = focusGroupTop(imgH, detailH) + imgH + CODE_GAP;
   }
 
   return (
