@@ -117,6 +117,7 @@ function easeInOutCubic(t: number): number {
 
 // ---- Drag: letting go of a quick drag throws the plane a little further ----
 const PAN_EASE = 0.18;
+const WHEEL_EASE = 0.09; // trackpad and wheel: the plane trails the fingers a little, like smooth scrolling
 const THROW_EASE = 0.07; // softer easing while the plane coasts after a throw
 const THROW_MS = 260; // how far a throw carries: speed (px/ms) times this
 const THROW_MAX_PX = 1200;
@@ -325,8 +326,9 @@ export default function Collection({
       let navigated = false; // true once the reader has moved between pieces with the arrow keys
 
       // Stops a glide or a throw where the plane is, so a new touch takes hold of it.
-      function catchPlane() {
-        if (!glide && panEase === PAN_EASE) return;
+      // `everything` also stops a coast or a smooth-scroll tail (a press); the wheel only takes over a glide.
+      function catchPlane(everything: boolean) {
+        if (!glide && !(everything && panEase !== PAN_EASE)) return;
         glide = null;
         glideRequested = false;
         panEase = PAN_EASE;
@@ -535,7 +537,7 @@ export default function Collection({
         last = { x: e.global.x, y: e.global.y };
         vx = vy = 0;
         lastMove = performance.now();
-        if (!focusedId) catchPlane();
+        if (!focusedId) catchPlane(true);
       });
       const endDrag = () => {
         // A quick drag, let go while still moving, carries the plane a little further.
@@ -577,7 +579,8 @@ export default function Collection({
       const onWheel = (e: WheelEvent) => {
         e.preventDefault();
         if (focusedId) return;
-        catchPlane();
+        catchPlane(false);
+        panEase = WHEEL_EASE;
         if (e.ctrlKey) {
           const rect = host.getBoundingClientRect();
           zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - rect.left, e.clientY - rect.top);
