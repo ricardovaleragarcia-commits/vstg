@@ -105,6 +105,23 @@ const MIN_ZOOM = 0.3;
 const MAX_ZOOM = 1.25;
 const INITIAL_ZOOM = 0.72; // the page opens zoomed out, so more pieces are visible at once
 
+// ---- Glide: opening or closing a piece is one calm motion, longer the further the piece is ----
+const GLIDE_MIN_MS = 900;
+const GLIDE_MAX_MS = 1500;
+const GLIDE_MS_PER_PX = 0.45; // extra time per pixel the plane has to travel
+const GLIDE_FADE_RATE = 0.06; // fade, blur and size ease at this rate while the plane glides (normally 0.12)
+// Same curve as the long CSS transitions of the site (cubic-bezier(0.65, 0, 0.35, 1)).
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+// ---- Drag: letting go of a quick drag throws the plane a little further ----
+const PAN_EASE = 0.18;
+const THROW_EASE = 0.07; // softer easing while the plane coasts after a throw
+const THROW_MS = 260; // how far a throw carries: speed (px/ms) times this
+const THROW_MAX_PX = 1200;
+const THROW_MIN_SPEED = 0.3; // px/ms below which letting go does not throw
+
 // Used by both the canvas and the text panel, so they always agree.
 export function focusScale(h: number): number {
   return Math.min(1.5, (window.innerHeight * FOCUS_HEIGHT_RATIO) / h);
@@ -294,23 +311,54 @@ export default function Collection({
       const nodes = new Map<string, PieceNode>();
       const blocks = new Map<string, BlockView>();
 
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // The glide: while it runs, the camera follows a timed curve instead of the quick pan easing.
+      let glide: { t0: number; dur: number; x0: number; y0: number; s0: number } | null = null;
+      let glideRequested = false;
+      let panEase = PAN_EASE;
+      // Speed of the drag, in px/ms, to throw the plane when it is let go.
+      let vx = 0;
+      let vy = 0;
+      let lastMove = 0;
+
       let savedView: { x: number; y: number; s: number } | null = null;
+      let navigated = false; // true once the reader has moved between pieces with the arrow keys
+
+      // Stops a glide or a throw where the plane is, so a new touch takes hold of it.
+      function catchPlane() {
+        if (!glide && panEase === PAN_EASE) return;
+        glide = null;
+        glideRequested = false;
+        panEase = PAN_EASE;
+        targetX = world.x;
+        targetY = world.y;
+        targetScale = scale;
+      }
 
       function setFocus(piece: Piece | null) {
+        const previous = focusedId ? nodes.get(focusedId)?.piece : null;
         focusedId = piece ? piece.id : null;
+        glideRequested = !!(piece || previous); // the ticker works out the distance and starts the glide
+        panEase = PAN_EASE;
         if (piece && !savedView) {
           savedView = { x: targetX, y: targetY, s: targetScale };
         }
         if (!piece) {
-          if (savedView) {
+          if (savedView && navigated && previous) {
+            // After moving between pieces, close where the last one was, not back at the first.
+            targetX = instance.screen.width / 2 - (previous.x + previous.w / 2) * savedView.s;
+            targetY = instance.screen.height / 2 + 40 - (previous.y + previous.h / 2) * savedView.s;
+            targetScale = savedView.s;
+          } else if (savedView) {
             targetX = savedView.x;
             targetY = savedView.y;
             targetScale = savedView.s;
-            savedView = null;
           } else {
             targetX = world.x;
             targetY = world.y;
           }
+          savedView = null;
+          navigated = false;
         }
         for (const entry of nodes.values()) {
           entry.body.eventMode = focusedId ? "none" : "static";
@@ -485,8 +533,21 @@ export default function Collection({
         dragging = true;
         dragDistance = 0;
         last = { x: e.global.x, y: e.global.y };
+        vx = vy = 0;
+        lastMove = performance.now();
+        if (!focusedId) catchPlane();
       });
       const endDrag = () => {
+        // A quick drag, let go while still moving, carries the plane a little further.
+        if (dragging && !focusedId && dragDistance > DRAG_TOLERANCE && performance.now() - lastMove < 80) {
+          const speed = Math.hypot(vx, vy);
+          if (speed > THROW_MIN_SPEED) {
+            const k = Math.min(THROW_MS, THROW_MAX_PX / speed);
+            targetX += vx * k;
+            targetY += vy * k;
+            panEase = THROW_EASE;
+          }
+        }
         dragging = false;
       };
       stage.on("pointerup", endDrag);
@@ -498,6 +559,11 @@ export default function Collection({
         last = { x: e.global.x, y: e.global.y };
         dragDistance += Math.abs(dx) + Math.abs(dy);
         if (focusedId) return;
+        const now = performance.now();
+        const elapsed = Math.max(1, now - lastMove);
+        lastMove = now;
+        vx = vx * 0.6 + (dx / elapsed) * 0.4;
+        vy = vy * 0.6 + (dy / elapsed) * 0.4;
         targetX += dx;
         targetY += dy;
       });
@@ -511,6 +577,7 @@ export default function Collection({
       const onWheel = (e: WheelEvent) => {
         e.preventDefault();
         if (focusedId) return;
+        catchPlane();
         if (e.ctrlKey) {
           const rect = host.getBoundingClientRect();
           zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - rect.left, e.clientY - rect.top);
@@ -522,8 +589,42 @@ export default function Collection({
       };
       host.addEventListener("wheel", onWheel, { passive: false });
 
+      // With a piece open, the arrow keys move to the nearest piece in that direction.
+      function stepFocus(key: string) {
+        const current = focusedId ? nodes.get(focusedId)?.piece : null;
+        if (!current) return;
+        const dir =
+          key === "ArrowRight" ? [1, 0] : key === "ArrowLeft" ? [-1, 0] : key === "ArrowDown" ? [0, 1] : key === "ArrowUp" ? [0, -1] : null;
+        if (!dir) return;
+        const cx = current.x + current.w / 2;
+        const cy = current.y + current.h / 2;
+        let best: Piece | null = null;
+        let bestScore = Infinity;
+        for (const { piece } of nodes.values()) {
+          if (piece.id === current.id || piece.code === current.code) continue;
+          const dx = piece.x + piece.w / 2 - cx;
+          const dy = piece.y + piece.h / 2 - cy;
+          const along = dx * dir[0] + dy * dir[1];
+          const across = Math.abs(dx * dir[1] - dy * dir[0]);
+          if (along < 40 || across > along * 2.5) continue;
+          const score = along + across * 2; // straight ahead beats far off to the side
+          if (score < bestScore) {
+            bestScore = score;
+            best = piece;
+          }
+        }
+        if (best) {
+          navigated = true;
+          setFocus(best);
+        }
+      }
+
       const onKey = (e: KeyboardEvent) => {
         if (e.key === "Escape") setFocus(null);
+        if (focusedId && e.key.startsWith("Arrow")) {
+          e.preventDefault();
+          stepFocus(e.key);
+        }
         if (!focusedId && (e.key === "+" || e.key === "=")) zoomRef.current?.(1.15);
         if (!focusedId && (e.key === "-" || e.key === "_")) zoomRef.current?.(1 / 1.15);
       };
@@ -558,16 +659,41 @@ export default function Collection({
           }
         }
 
-        // The plane eases toward its targets and rests there.
-        const ease = Math.min(1, 0.18 * dt);
-        scale += (targetScale - scale) * ease;
-        world.scale.set(scale);
-        world.x += (targetX - world.x) * ease;
-        world.y += (targetY - world.y) * ease;
+        // Opening or closing a piece: one calm glide, longer the further the plane has to travel.
+        const now = performance.now();
+        if (glideRequested) {
+          glideRequested = false;
+          const travel = Math.hypot(targetX - world.x, targetY - world.y) + Math.abs(targetScale - scale) * 400;
+          const dur = reduceMotion ? 250 : Math.min(GLIDE_MAX_MS, GLIDE_MIN_MS + travel * GLIDE_MS_PER_PX);
+          glide = { t0: now, dur, x0: world.x, y0: world.y, s0: scale };
+        }
 
+        if (glide) {
+          // The targets can still move a little (the text under an open piece is measured after it appears),
+          // so the glide always aims at where they are now.
+          const e = easeInOutCubic(Math.min(1, (now - glide.t0) / glide.dur));
+          scale = glide.s0 + (targetScale - glide.s0) * e;
+          world.scale.set(scale);
+          world.x = glide.x0 + (targetX - glide.x0) * e;
+          world.y = glide.y0 + (targetY - glide.y0) * e;
+          if (now - glide.t0 >= glide.dur) glide = null;
+        } else {
+          // Dragging and the wheel: the plane eases toward its targets and rests there.
+          const ease = Math.min(1, panEase * dt);
+          scale += (targetScale - scale) * ease;
+          world.scale.set(scale);
+          world.x += (targetX - world.x) * ease;
+          world.y += (targetY - world.y) * ease;
+          // A throw has settled once the plane is on its target; the quick easing comes back.
+          if (panEase !== PAN_EASE && Math.abs(targetX - world.x) < 0.5 && Math.abs(targetY - world.y) < 0.5) {
+            panEase = PAN_EASE;
+          }
+        }
+
+        const gliding = glide !== null;
         for (const [id, entry] of nodes) {
           const isFocus = id === focusedId;
-          const k = Math.min(1, 0.12 * dt);
+          const k = Math.min(1, (gliding ? GLIDE_FADE_RATE : 0.12) * dt);
 
           // While a piece is open, everything else disappears.
           const targetAlpha = focusedId && !isFocus ? 0 : 1;
@@ -577,7 +703,7 @@ export default function Collection({
           const isPublic = entry.piece.visibility === "public";
           // Hover lifts half of the blur; opening the piece removes the rest.
           const targetBlur = !isPublic ? BLUR : isFocus ? 0 : !focusedId && hoveredId === id ? BLUR * 0.5 : BLUR;
-          entry.blur.strength += (targetBlur - entry.blur.strength) * Math.min(1, 0.15 * dt);
+          entry.blur.strength += (targetBlur - entry.blur.strength) * Math.min(1, (gliding ? 0.08 : 0.15) * dt);
 
           const targetNodeScale = isFocus ? focusScale(entry.piece.h) : 1;
           entry.node.scale.set(entry.node.scale.x + (targetNodeScale - entry.node.scale.x) * k);
@@ -652,7 +778,7 @@ export default function Collection({
 
 
       {focused && (
-        <aside ref={detailRef} className="detail" aria-live="polite" style={{ top: detailTop }}>
+        <aside key={focused.id} ref={detailRef} className="detail" aria-live="polite" style={{ top: detailTop }}>
           <p className="detail__label">
             <RewriteLabel short="[desc.]" full="[description]" />
           </p>
