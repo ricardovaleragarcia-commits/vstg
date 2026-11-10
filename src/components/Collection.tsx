@@ -106,10 +106,10 @@ const MAX_ZOOM = 1.25;
 const INITIAL_ZOOM = 0.72; // the page opens zoomed out, so more pieces are visible at once
 
 // ---- Glide: opening or closing a piece is one calm motion, longer the further the piece is ----
-const GLIDE_MIN_MS = 900;
-const GLIDE_MAX_MS = 1500;
-const GLIDE_MS_PER_PX = 0.45; // extra time per pixel the plane has to travel
-const GLIDE_FADE_RATE = 0.06; // fade, blur and size ease at this rate while the plane glides (normally 0.12)
+const GLIDE_MIN_MS = 650;
+const GLIDE_MAX_MS = 1100;
+const GLIDE_MS_PER_PX = 0.3; // extra time per pixel the plane has to travel
+const GLIDE_FADE_RATE = 0.085; // fade, blur and size ease at this rate while the plane glides (normally 0.12)
 // Same curve as the long CSS transitions of the site (cubic-bezier(0.65, 0, 0.35, 1)).
 function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -703,7 +703,7 @@ export default function Collection({
           const isPublic = entry.piece.visibility === "public";
           // Hover lifts half of the blur; opening the piece removes the rest.
           const targetBlur = !isPublic ? BLUR : isFocus ? 0 : !focusedId && hoveredId === id ? BLUR * 0.5 : BLUR;
-          entry.blur.strength += (targetBlur - entry.blur.strength) * Math.min(1, (gliding ? 0.08 : 0.15) * dt);
+          entry.blur.strength += (targetBlur - entry.blur.strength) * Math.min(1, (gliding ? 0.11 : 0.15) * dt);
 
           const targetNodeScale = isFocus ? focusScale(entry.piece.h) : 1;
           entry.node.scale.set(entry.node.scale.x + (targetNodeScale - entry.node.scale.x) * k);

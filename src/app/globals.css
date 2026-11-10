@@ -230,7 +230,7 @@ button:disabled {
   font-size: 0.7rem;
   letter-spacing: normal;
   padding: 0.1rem 0.35rem;
-  animation: detail-in 0.9s ease 0.7s both;
+  animation: detail-in 0.7s ease 0.5s both;
 }
 
 .close-button:hover {
@@ -281,7 +281,7 @@ button:disabled {
   z-index: 3;
   pointer-events: none;
   /* The text arrives once the piece has nearly settled, not while it is still travelling. */
-  animation: detail-in 0.9s ease 0.7s both;
+  animation: detail-in 0.7s ease 0.5s both;
 }
 
 @keyframes detail-in {
