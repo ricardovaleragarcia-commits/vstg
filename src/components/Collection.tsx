@@ -60,9 +60,9 @@ const DRAG_TOLERANCE = 6; // pixels moved before a press counts as dragging, not
 const TOP_SPACE = 200; // keeps the first pieces below the masthead
 const CODE_GAP = 44; // space between the image and its code when a piece is open
 const FOCUS_HEIGHT_RATIO = 0.5; // an open piece fills up to half the screen height
-const MIN_ZOOM = 0.3;
+const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 1.25;
-const INITIAL_ZOOM = 0.72; // the page opens zoomed out, so more pieces are visible at once
+const INITIAL_ZOOM = 0.85; // the page opens zoomed out, so more pieces are visible at once
 
 // ---- Glide: opening or closing a piece is one calm motion, longer the further the piece is ----
 const GLIDE_MIN_MS = 650;
@@ -222,7 +222,7 @@ export default function Collection({
       // A new order for every visit.
       initArchive(Math.floor(Math.random() * 0xffffffff));
       // Phones start further out, so the neighbouring pieces are visible.
-      const startZoom = window.innerWidth < 768 ? 0.4 : INITIAL_ZOOM;
+      const startZoom = window.innerWidth < 768 ? 0.55 : INITIAL_ZOOM;
       await document.fonts.load('18px "STIX Two Text"');
 
       const instance = new Application();
