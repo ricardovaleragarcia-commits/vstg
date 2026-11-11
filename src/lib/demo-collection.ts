@@ -3,7 +3,7 @@ import COLORS from "@/data/colors.json"; // predominant colour of each image, ma
 
 // The plane is an invisible grid. Each cell holds at most one piece, small and placed at a random
 // spot inside it, so the pieces look scattered but never touch. A few cells stay empty.
-// The grid repeats in every direction; each repetition rotates its columns and shifts the entries.
+// The grid repeats in every direction.
 export const CELL_W = 345;
 export const CELL_H = 330;
 export const TILE_COUNT = VSTG.length;
@@ -135,31 +135,18 @@ type Content = {
 
 let CONTENT: Content[] = [];
 
-// Which entry each repetition starts with. Different repetitions start at different places.
-function offsetFor(cx: number, cy: number): number {
-  const h = Math.imul(cx, 73856093) ^ Math.imul(cy, 19349663) ^ SEED;
-  return (h >>> 0) % Math.max(CONTENT.length, 1);
-}
-
-// Each repetition rotates its columns by its own shift, so the edge of one repetition
-// never sits next to the same columns of the next one, sideways or above and below.
-function columnShift(cx: number, cy: number): number {
-  const shift = 3 * cx + 7 * cy + (SEED % COLUMNS_PER_TILE);
-  return ((shift % COLUMNS_PER_TILE) + COLUMNS_PER_TILE) % COLUMNS_PER_TILE;
-}
-
+// Every repetition of the grid is identical, so the same vestige only appears again a whole
+// repetition away (16 columns, 13 rows): never twice on screen, even zoomed all the way out.
 const mod = (a: number, n: number) => ((a % n) + n) % n;
 
 // The piece in grid cell (gx, gy) of the infinite plane, or null if that cell is empty.
 export function pieceAt(gx: number, gy: number): Piece | null {
-  const cx = Math.floor(gx / COLUMNS_PER_TILE);
-  const cy = Math.floor(gy / ROWS_PER_TILE);
-  const col = mod(mod(gx, COLUMNS_PER_TILE) + columnShift(cx, cy), COLUMNS_PER_TILE);
+  const col = mod(gx, COLUMNS_PER_TILE);
   const row = mod(gy, ROWS_PER_TILE);
   const slot = TILE[row * COLUMNS_PER_TILE + col];
   if (!slot) return null;
 
-  const content = CONTENT[(slot.entry + offsetFor(cx, cy)) % CONTENT.length];
+  const content = CONTENT[slot.entry % CONTENT.length];
 
   return {
     id: `${gx}:${gy}`,
@@ -168,7 +155,7 @@ export function pieceAt(gx: number, gy: number): Piece | null {
     visibility: "public",
     x: Math.round(gx * CELL_W + slot.dx),
     // The drop follows the column on screen, so it stays the same across repetitions above and below.
-    y: Math.round(gy * CELL_H + slot.dy + COLUMN_OFFSET[mod(gx, COLUMNS_PER_TILE)]),
+    y: Math.round(gy * CELL_H + slot.dy + COLUMN_OFFSET[col]),
     w: Math.round(slot.w),
     h: Math.round(slot.h),
     color: content.color,

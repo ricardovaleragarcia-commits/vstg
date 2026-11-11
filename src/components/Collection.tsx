@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Application, Assets, BlurFilter, Container, Filter, GlProgram, Graphics, Rectangle, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Application, Assets, BlurFilter, Container, Graphics, Rectangle, Sprite, Texture, TilingSprite } from "pixi.js";
 import { initArchive, CELL_H, CELL_W, pieceAt, type Piece } from "@/lib/demo-collection";
 
 // Pieces rest in an already blurred copy (made by scripts/image-versions.mjs), so the browser
@@ -51,66 +51,11 @@ function grainTexture(): Texture {
   return grainCache;
 }
 
-// ---- Dissolve: the photograph appears grain by grain over its colour frame ----
-const DISSOLVE_MS = 1100; // how long one photograph takes to dissolve in
+// ---- Appearance: each photograph comes out of a fog over its colour frame ----
+const APPEAR_MS = 1300; // how long one photograph takes to settle
+const APPEAR_BLUR = 22; // extra blur at the start, on top of the blurred copy
 const FRAME_FADE_MS = 900; // how long a colour frame takes to fade in before its photograph arrives
-const DISSOLVE_CELL = 7; // size of one dissolving grain, in pixels of the frame
-const DISSOLVE_VERTEX = `
-in vec2 aPosition;
-out vec2 vTextureCoord;
-uniform vec4 uInputSize;
-uniform vec4 uOutputFrame;
-uniform vec4 uOutputTexture;
-void main(void) {
-  vec2 position = aPosition * uOutputFrame.zw + uOutputFrame.xy;
-  position.x = position.x * (2.0 / uOutputTexture.x) - 1.0;
-  position.y = position.y * (2.0 * uOutputTexture.z / uOutputTexture.y) - uOutputTexture.z;
-  gl_Position = vec4(position, 0.0, 1.0);
-  vTextureCoord = aPosition * (uOutputFrame.zw * uInputSize.zw);
-}`;
-// Every grain gets a random threshold; the grain shows once the progress passes it.
-// A little smooth noise is mixed in, so the dissolve breaks up in patches instead of pure static.
-const DISSOLVE_FRAGMENT = `
-in vec2 vTextureCoord;
-out vec4 finalColor;
-uniform sampler2D uTexture;
-uniform float uProgress;
-uniform float uSeed;
-uniform vec2 uCells;
-float hash(vec2 p) {
-  p = fract(p * vec2(123.34, 456.21) + uSeed);
-  p += dot(p, p + 45.32);
-  return fract(p.x * p.y);
-}
-float smoothNoise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  f = f * f * (3.0 - 2.0 * f);
-  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
-}
-void main() {
-  vec4 color = texture(uTexture, vTextureCoord);
-  vec2 cell = floor(vTextureCoord * uCells);
-  float n = mix(hash(cell), smoothNoise(cell / 9.0), 0.4);
-  float edge = 0.12;
-  float shown = smoothstep(n, n + edge, uProgress * (1.0 + edge));
-  finalColor = color * shown;
-}`;
-let dissolveProgram: GlProgram | null = null;
-function dissolveFilter(w: number, h: number): Filter {
-  dissolveProgram ??= GlProgram.from({ vertex: DISSOLVE_VERTEX, fragment: DISSOLVE_FRAGMENT, name: "vstg-dissolve" });
-  return new Filter({
-    glProgram: dissolveProgram,
-    resources: {
-      dissolveUniforms: {
-        uProgress: { value: 0, type: "f32" },
-        uSeed: { value: Math.random() * 100, type: "f32" },
-        uCells: { value: [Math.max(1, w / DISSOLVE_CELL), Math.max(1, h / DISSOLVE_CELL)], type: "vec2<f32>" },
-      },
-    },
-  });
-}
+
 const DRAG_TOLERANCE = 6; // pixels moved before a press counts as dragging, not clicking
 const TOP_SPACE = 200; // keeps the first pieces below the masthead
 const CODE_GAP = 44; // space between the image and its code when a piece is open
@@ -172,6 +117,7 @@ type PieceNode = {
   sharpReady: boolean;
   reveal: number; // 0 blurred copy only, 1 sharp copy fully in
   liveBlur: BlurFilter | null; // only on the piece under the cursor
+  appearing: boolean; // true while the photograph comes out of its fog
   piece: Piece;
 };
 
@@ -442,6 +388,7 @@ export default function Collection({
           sharpReady: false,
           reveal: 0,
           liveBlur: null,
+          appearing: false,
           piece,
         };
 
@@ -459,10 +406,14 @@ export default function Collection({
               body.addChild(grain);
               entry.grain = grain;
 
-              // The photograph dissolves in over the colour frame, grain by grain, instead of popping in.
-              const dissolve = dissolveFilter(piece.w, piece.h);
-              sprite.filters = [dissolve];
+              // The photograph comes out of a fog over its colour frame: it fades in while its extra
+              // blur settles. The frame trims the fog, so it stays inside the piece.
+              const fog = new BlurFilter({ strength: APPEAR_BLUR, quality: 2 });
+              sprite.filters = [fog];
+              sprite.alpha = 0;
               grain.alpha = 0;
+              entry.appearing = true;
+              body.mask = frame;
               const delay = Math.random() * 250; // pieces that arrive together do not all start in step
               // The photograph waits until its colour frame is mostly in, so the two do not arrive at once.
               const t0 = Math.max(performance.now() + delay, frameStart + FRAME_FADE_MS * 0.6);
@@ -471,14 +422,18 @@ export default function Collection({
                   instance.ticker.remove(run);
                   return;
                 }
-                const t = Math.min(1, Math.max(0, (performance.now() - t0) / DISSOLVE_MS));
-                const eased = t * t * (3 - 2 * t);
-                dissolve.resources.dissolveUniforms.uniforms.uProgress = eased;
+                const t = Math.min(1, Math.max(0, (performance.now() - t0) / APPEAR_MS));
+                const eased = 1 - Math.pow(1 - t, 3);
+                sprite.alpha = Math.min(1, eased * 1.4);
+                fog.strength = APPEAR_BLUR * (1 - eased);
                 grain.alpha = GRAIN * eased;
                 if (t >= 1) {
                   sprite.filters = [];
-                  dissolve.destroy();
+                  fog.destroy();
+                  sprite.alpha = 1;
                   grain.alpha = GRAIN;
+                  entry.appearing = false;
+                  if (!entry.liveBlur) body.mask = null;
                   instance.ticker.remove(run);
                 }
               };
@@ -737,7 +692,7 @@ export default function Collection({
               entry.liveBlur.strength += (blurTarget - entry.liveBlur.strength) * Math.min(1, (gliding ? 0.11 : 0.15) * dt);
             } else if (entry.liveBlur) {
               entry.sharp.filters = [];
-              entry.body.mask = null;
+              if (!entry.appearing) entry.body.mask = null;
               entry.liveBlur.destroy();
               entry.liveBlur = null;
             }
