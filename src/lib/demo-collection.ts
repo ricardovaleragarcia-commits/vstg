@@ -1,19 +1,20 @@
 import { VSTG } from "@/data/vstg";
 import COLORS from "@/data/colors.json"; // predominant colour of each image, made by `npm run colors`
 
-// The plane is a tile of pieces, packed once with no holes. The tile repeats in every direction.
-// Each repetition rotates its columns and shifts which archive entry sits where.
-export const COLUMN_WIDTH = 420;
-export const COLUMN_STEP = 480; // distance between column starts (60 px clear beside a 420 px column)
+// The plane is an invisible grid. Each cell holds at most one piece, small and placed at a random
+// spot inside it, so the pieces look scattered but never touch. A few cells stay empty.
+// The grid repeats in every direction; each repetition rotates its columns and shifts the entries.
+export const CELL_W = 380;
+export const CELL_H = 360;
 export const TILE_COUNT = VSTG.length;
-export const COLUMNS_PER_TILE = Math.max(4, Math.round(Math.sqrt(TILE_COUNT)));
-export const BLOCK_WIDTH = COLUMNS_PER_TILE * COLUMN_STEP;
-export const LONGEST_SIDES = [260, 320, 380, 420];
-const FILL_SIDES = [160, 200, 240, 280];
+export const COLUMNS_PER_TILE = 16;
+export const ROWS_PER_TILE = Math.ceil(TILE_COUNT / COLUMNS_PER_TILE) + 1; // the extra row leaves a few empty cells
+export const BLOCK_WIDTH = COLUMNS_PER_TILE * CELL_W;
+export const BLOCK_HEIGHT = ROWS_PER_TILE * CELL_H;
+export const LONGEST_SIDES = [115, 140, 165, 190];
 
-const LABEL_SPACE = 50; // room for the [vstg–####] code under each piece
-const GAP_MIN = 60;
-const GAP_RANGE = 60;
+const LABEL_SPACE = 44; // room for the [vstg.####] code under each piece
+const MARGIN = 28; // minimum clear space inside each cell, so neighbours never touch
 
 export type Piece = {
   id: string;
@@ -75,77 +76,38 @@ export function sizeFromLongest(ratio: number, longest: number) {
   return { w: longest * ratio, h: longest };
 }
 
-// ---- The tile layout: packed once, shared by every repetition ----
+// ---- The tile layout: made once per visit, shared by every repetition ----
 
-type Slot = { col: number; x: number; y: number; w: number; h: number; ratio: number };
+// Where a piece sits inside its cell, and which entry of the archive it shows (before the shift).
+type Slot = { dx: number; dy: number; w: number; h: number; entry: number };
 
-function buildTile(seed: number): { slots: Slot[]; height: number } {
+function buildTile(seed: number): (Slot | null)[] {
   const random = rng(seed);
-
-  const cols = Array.from({ length: COLUMNS_PER_TILE }, (_, i) => ({
-    index: i,
-    y: GAP_MIN + random() * GAP_RANGE,
-    items: [] as Slot[],
-  }));
-
-  // Each new piece goes to the column with the most room left.
-  for (let n = 0; n < TILE_COUNT; n++) {
-    const col = cols.reduce((a, b) => (b.y < a.y ? b : a));
-    const ratio = pick(random, RATIOS);
-    const longest = pick(random, LONGEST_SIDES);
-    const { w, h } = sizeFromLongest(ratio, longest);
-
-    col.items.push({ col: col.index, x: col.index * COLUMN_STEP + (COLUMN_WIDTH - w) / 2, y: col.y, w, h, ratio });
-    col.y += h + LABEL_SPACE + GAP_MIN + random() * GAP_RANGE;
-  }
-
-  // The tile is as tall as its tallest column needs.
-  const height =
-    Math.max(
-      ...cols.map((c) => {
-        const last = c.items[c.items.length - 1];
-        return last.y + last.h;
-      })
-    ) +
-    LABEL_SPACE +
-    GAP_MIN;
-  const bottomLine = height - GAP_MIN - LABEL_SPACE;
-
-  // Fill each shorter column with smaller pieces until nothing else fits.
-  for (const col of cols) {
-    for (let guard = 0; guard < 20; guard++) {
-      const last = col.items[col.items.length - 1];
-      const nextTop = last.y + last.h + LABEL_SPACE + GAP_MIN;
-      const avail = bottomLine - nextTop;
-      const ratio = pick(random, RATIOS);
-      const fitting = FILL_SIDES.filter((L) => sizeFromLongest(ratio, L).h <= avail);
-      if (fitting.length === 0) break;
-      const { w, h } = sizeFromLongest(ratio, Math.max(...fitting));
-      col.items.push({ col: col.index, x: col.index * COLUMN_STEP + (COLUMN_WIDTH - w) / 2, y: nextTop, w, h, ratio });
-    }
-  }
-
-  // Close the last few pixels: stretch each column's last piece to the bottom line.
-  for (const col of cols) {
-    const last = col.items[col.items.length - 1];
-    if (bottomLine <= last.y + last.h) continue;
-
-    let h = bottomLine - last.y;
-    let w = h * last.ratio;
-    if (w > COLUMN_WIDTH) {
-      w = COLUMN_WIDTH;
-      h = w / last.ratio;
-    }
-    last.h = h;
-    last.w = w;
-    last.x = last.col * COLUMN_STEP + (COLUMN_WIDTH - w) / 2;
-  }
-
-  return { slots: cols.flatMap((c) => c.items), height };
+  const cells = COLUMNS_PER_TILE * ROWS_PER_TILE;
+  // Which cells hold a piece: every entry once, the rest empty, in random cells.
+  const filled = shuffle(
+    Array.from({ length: cells }, (_, i) => i < TILE_COUNT),
+    random,
+  );
+  let entry = 0;
+  return filled.map((has) => {
+    if (!has) return null;
+    const { w, h } = sizeFromLongest(pick(random, RATIOS), pick(random, LONGEST_SIDES));
+    const roomX = CELL_W - 2 * MARGIN - w;
+    const roomY = CELL_H - LABEL_SPACE - 2 * MARGIN - h;
+    return {
+      dx: MARGIN + random() * roomX,
+      dy: MARGIN + random() * roomY,
+      w,
+      h,
+      entry: entry++,
+    };
+  });
 }
 
-let TILE: { slots: Slot[]; height: number };
-export let BLOCK_HEIGHT = 0;
+let TILE: (Slot | null)[] = [];
+// Each column of the grid is pushed down by its own amount, so the rows do not line up.
+let COLUMN_OFFSET: number[] = [];
 let SEED = 0x5eed;
 
 // ---- The content: the archive, reused by every repetition ----
@@ -179,51 +141,50 @@ function offsetFor(cx: number, cy: number): number {
   return (h >>> 0) % Math.max(CONTENT.length, 1);
 }
 
-// Each repetition rotates its columns by a shift. The shift grows by 2 with every repetition,
-// so the last column of one repetition never sits next to an identical column from the next.
-function columnShift(cx: number): number {
-  const shift = 2 * cx + (SEED % COLUMNS_PER_TILE);
+// Each repetition rotates its columns by its own shift, so the edge of one repetition
+// never sits next to the same columns of the next one, sideways or above and below.
+function columnShift(cx: number, cy: number): number {
+  const shift = 3 * cx + 7 * cy + (SEED % COLUMNS_PER_TILE);
   return ((shift % COLUMNS_PER_TILE) + COLUMNS_PER_TILE) % COLUMNS_PER_TILE;
 }
 
-// The pieces of one repetition. Odd rows are flipped vertically, so the layout does not look stamped.
-export function piecesForBlock(cx: number, cy: number): Piece[] {
-  const shift = columnShift(cx);
-  const flipY = (cy & 1) !== 0;
-  const offset = offsetFor(cx, cy);
-  const ox = cx * BLOCK_WIDTH;
-  const oy = cy * BLOCK_HEIGHT;
+const mod = (a: number, n: number) => ((a % n) + n) % n;
 
-  return TILE.slots.map((slot, i) => {
-    const content = CONTENT[(i + offset) % CONTENT.length];
-    const column = (((slot.col - shift) % COLUMNS_PER_TILE) + COLUMNS_PER_TILE) % COLUMNS_PER_TILE;
-    const localX = column * COLUMN_STEP + (COLUMN_WIDTH - slot.w) / 2;
-    const localY = flipY ? BLOCK_HEIGHT - (slot.y + slot.h) : slot.y;
+// The piece in grid cell (gx, gy) of the infinite plane, or null if that cell is empty.
+export function pieceAt(gx: number, gy: number): Piece | null {
+  const cx = Math.floor(gx / COLUMNS_PER_TILE);
+  const cy = Math.floor(gy / ROWS_PER_TILE);
+  const col = mod(mod(gx, COLUMNS_PER_TILE) + columnShift(cx, cy), COLUMNS_PER_TILE);
+  const row = mod(gy, ROWS_PER_TILE);
+  const slot = TILE[row * COLUMNS_PER_TILE + col];
+  if (!slot) return null;
 
-    return {
-      id: `${cx}:${cy}:${i}`,
-      code: content.code,
-      kind: "image",
-      visibility: "public",
-      x: Math.round(ox + localX),
-      y: Math.round(oy + localY),
-      w: Math.round(slot.w),
-      h: Math.round(slot.h),
-      color: content.color,
-      text: null,
-      name: content.name,
-      description: content.description,
-      failedFuture: content.failedFuture,
-      source: content.source,
-      link: content.link,
-      image: content.image,
-      conceptionYear: content.conceptionYear,
-      closureYear: content.closureYear,
-      anchorYear: content.anchorYear,
-      distance: content.distance,
-      presentEffect: content.presentEffect,
-    };
-  });
+  const content = CONTENT[(slot.entry + offsetFor(cx, cy)) % CONTENT.length];
+
+  return {
+    id: `${gx}:${gy}`,
+    code: content.code,
+    kind: "image",
+    visibility: "public",
+    x: Math.round(gx * CELL_W + slot.dx),
+    // The drop follows the column on screen, so it stays the same across repetitions above and below.
+    y: Math.round(gy * CELL_H + slot.dy + COLUMN_OFFSET[mod(gx, COLUMNS_PER_TILE)]),
+    w: Math.round(slot.w),
+    h: Math.round(slot.h),
+    color: content.color,
+    text: null,
+    name: content.name,
+    description: content.description,
+    failedFuture: content.failedFuture,
+    source: content.source,
+    link: content.link,
+    image: content.image,
+    conceptionYear: content.conceptionYear,
+    closureYear: content.closureYear,
+    anchorYear: content.anchorYear,
+    distance: content.distance,
+    presentEffect: content.presentEffect,
+  };
 }
 
 function shuffle<T>(items: T[], random: () => number): T[] {
@@ -239,7 +200,8 @@ function shuffle<T>(items: T[], random: () => number): T[] {
 export function initArchive(seed: number) {
   SEED = seed;
   TILE = buildTile(seed);
-  BLOCK_HEIGHT = TILE.height;
+  const random = rng(seed ^ 0x9e3779b9);
+  COLUMN_OFFSET = Array.from({ length: COLUMNS_PER_TILE }, () => Math.round(random() * CELL_H * 0.5));
   const entries: Content[] = VSTG.map((v, k) => ({
     code: displayCode(v),
     // The frame is painted with the predominant colour of its photograph until the photograph arrives.

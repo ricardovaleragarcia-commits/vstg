@@ -1,17 +1,31 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Application, Assets, BlurFilter, Container, Filter, GlProgram, Graphics, Sprite, Text, Texture, TilingSprite } from "pixi.js";
-import {
-  initArchive,
-  BLOCK_HEIGHT,
-  BLOCK_WIDTH,
-  COLUMN_WIDTH,
-  piecesForBlock,
-  type Piece,
-} from "@/lib/demo-collection";
+import { Application, Assets, BlurFilter, Container, Filter, GlProgram, Graphics, Rectangle, Sprite, Texture, TilingSprite } from "pixi.js";
+import { initArchive, CELL_H, CELL_W, pieceAt, type Piece } from "@/lib/demo-collection";
 
+// Pieces rest in an already blurred copy (made by scripts/image-versions.mjs), so the browser
+// does not compute hundreds of blurs while the plane moves. Hover brings in the sharp copy,
+// softened by this much; opening a piece removes the rest.
 const BLUR = 14;
+
+// Three copies of every image: tiny and blurred for the plane, medium for hover, the original for an open piece.
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+type Variant = "b" | "m" | "full";
+function imageUrl(image: string, variant: Variant): string {
+  if (variant === "full") return BASE + image;
+  return BASE + image.replace(/\/([^/]+)\.(webp|jpe?g)$/i, `/${variant}/$1.webp`);
+}
+
+// A view of the texture cropped from the centre to the frame's proportions, so no mask is needed.
+function coverTexture(texture: Texture, w: number, h: number): Texture {
+  const tw = texture.width;
+  const th = texture.height;
+  const k = Math.max(w / tw, h / th);
+  const cw = w / k;
+  const ch = h / k;
+  return new Texture({ source: texture.source, frame: new Rectangle((tw - cw) / 2, (th - ch) / 2, cw, ch) });
+}
 const GRAIN = 0.07; // strength of the film grain over photographs: opacity of the darkest and lightest specks
 
 // One small noise tile, shared by every photograph. Half of the specks are black and half white
@@ -146,12 +160,20 @@ function codeParts(text: string): Node[] {
 
 type PieceNode = {
   node: Container; // position, scale and fade
-  body: Container; // the piece itself; its blur is trimmed to its frame
+  body: Container; // the piece itself
+  frame: Graphics; // the piece's own size and shape; used as a mask only while a live blur is on
+  swatch: Graphics; // the predominant colour, shown while the photograph arrives
+  frameStart: number;
   label: HTMLDivElement; // the code, under the piece, as normal HTML text
-  blur: BlurFilter;
+  labelShown: boolean;
+  grain: TilingSprite | null;
+  sharp: Sprite | null; // medium copy on hover, the original once opened
+  sharpLevel: 0 | 1 | 2; // 0 none requested, 1 medium, 2 original
+  sharpReady: boolean;
+  reveal: number; // 0 blurred copy only, 1 sharp copy fully in
+  liveBlur: BlurFilter | null; // only on the piece under the cursor
   piece: Piece;
 };
-type BlockView = { container: Container; ids: string[] };
 
 // A bracketed label that rewrites itself into its unabbreviated form when touched
 // or hovered: it erases back to the shared prefix, types the rest, stays readable
@@ -296,7 +318,7 @@ export default function Collection({
       // Start with column 0 centred horizontally.
       const world = new Container();
       stage.addChild(world);
-      world.position.set(instance.screen.width / 2 - (COLUMN_WIDTH / 2) * startZoom, TOP_SPACE);
+      world.position.set(instance.screen.width / 2 - (CELL_W / 2) * startZoom, TOP_SPACE);
 
       let focusedId: string | null = null;
       let hoveredId: string | null = null;
@@ -310,7 +332,6 @@ export default function Collection({
       let targetScale = startZoom;
       let lastRangeKey = "";
       const nodes = new Map<string, PieceNode>();
-      const blocks = new Map<string, BlockView>();
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       // The glide: while it runs, the camera follows a timed curve instead of the quick pan easing.
@@ -383,73 +404,60 @@ export default function Collection({
         zoomAt(factor, instance.screen.width / 2, instance.screen.height / 2);
       };
 
-      const grainOf = new Map<string, TilingSprite>();
-
       function createNode(piece: Piece): PieceNode {
         const root = new Container();
         root.pivot.set(piece.w / 2, piece.h / 2);
         root.position.set(piece.x + piece.w / 2, piece.y + piece.h / 2);
 
-        // The piece is its own frame. The mask keeps the blur inside the original size and shape.
-        const frame = new Graphics().rect(0, 0, piece.w, piece.h).fill(0xffffff);
         const body = new Container();
-        // The mask must be part of the scene, otherwise it is positioned at the screen corner.
-        body.addChild(frame);
-        body.mask = frame;
+        body.hitArea = new Rectangle(0, 0, piece.w, piece.h);
         body.cursor = "pointer";
         body.eventMode = focusedId ? "none" : "static";
+        const frame = new Graphics().rect(0, 0, piece.w, piece.h).fill(0xffffff);
+        body.addChild(frame);
 
-        // The blur applies to the content only; the mask then trims it to the frame.
-        const inner = new Container();
-        // The colour frame fades in softly instead of appearing as a hard block.
+        // The colour frame fades in softly instead of appearing as a hard block (eased in the ticker).
         const swatch = new Graphics().rect(0, 0, piece.w, piece.h).fill(piece.color);
         swatch.alpha = 0;
-        inner.addChild(swatch);
+        body.addChild(swatch);
         const frameStart = performance.now() + Math.random() * 400;
-        const fadeFrame = () => {
-          if (swatch.destroyed) {
-            instance.ticker.remove(fadeFrame);
-            return;
-          }
-          const t = Math.min(1, Math.max(0, (performance.now() - frameStart) / FRAME_FADE_MS));
-          swatch.alpha = t * t * (3 - 2 * t);
-          if (t >= 1) instance.ticker.remove(fadeFrame);
+
+        const label = document.createElement("div");
+        label.className = "piece-label";
+        label.style.display = "none";
+        label.replaceChildren(...codeParts(`[${piece.code}]`));
+        labelLayer.appendChild(label);
+
+        const entry: PieceNode = {
+          node: root,
+          body,
+          frame,
+          swatch,
+          frameStart,
+          label,
+          labelShown: false,
+          grain: null,
+          sharp: null,
+          sharpLevel: 0,
+          sharpReady: false,
+          reveal: 0,
+          liveBlur: null,
+          piece,
         };
-        instance.ticker.add(fadeFrame);
 
-        if (piece.kind === "text" && piece.text) {
-          const copy = new Text({
-            text: piece.text,
-            style: {
-              fontFamily: "STIX Two Text",
-              fontSize: 11.2,
-              lineHeight: 17,
-              fill: 0x1c1b19,
-              wordWrap: true,
-              wordWrapWidth: piece.w - 40,
-            },
-          });
-          copy.position.set(20, 20);
-          inner.addChild(copy);
-        }
-
-        // Real photographs are .webp (or .jpg); the grey .png files are still placeholders and are not loaded.
+        // The tiny blurred copy: a couple of kilobytes, so the whole plane arrives almost at once.
         if (piece.image && /\.(webp|jpe?g)$/.test(piece.image)) {
-          const url = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${piece.image}`;
-          Assets.load(url)
-            .then((texture) => {
-              if (inner.destroyed) return;
-              const sprite = new Sprite(texture);
-              // Fill the frame, cropped from the centre.
-              const k = Math.max(piece.w / texture.width, piece.h / texture.height);
-              sprite.scale.set(k);
-              sprite.position.set((piece.w - texture.width * k) / 2, (piece.h - texture.height * k) / 2);
-              inner.addChildAt(sprite, 1);
+          Assets.load(imageUrl(piece.image, "b"))
+            .then((texture: Texture) => {
+              if (body.destroyed) return;
+              const sprite = new Sprite(coverTexture(texture, piece.w, piece.h));
+              sprite.width = piece.w;
+              sprite.height = piece.h;
+              body.addChildAt(sprite, 2);
               // A fine, neutral film grain over the photograph.
               const grain = new TilingSprite({ texture: grainTexture(), width: piece.w, height: piece.h });
-              grain.alpha = GRAIN;
-              inner.addChildAt(grain, 2);
-              grainOf.set(piece.id, grain);
+              body.addChild(grain);
+              entry.grain = grain;
 
               // The photograph dissolves in over the colour frame, grain by grain, instead of popping in.
               const dissolve = dissolveFilter(piece.w, piece.h);
@@ -459,7 +467,7 @@ export default function Collection({
               // The photograph waits until its colour frame is mostly in, so the two do not arrive at once.
               const t0 = Math.max(performance.now() + delay, frameStart + FRAME_FADE_MS * 0.6);
               const run = () => {
-                if (inner.destroyed || sprite.destroyed) {
+                if (sprite.destroyed) {
                   instance.ticker.remove(run);
                   return;
                 }
@@ -479,10 +487,6 @@ export default function Collection({
             .catch(() => {});
         }
 
-        const blur = new BlurFilter({ strength: BLUR });
-        inner.filters = [blur];
-        body.addChild(inner);
-
         body.on("pointerover", () => {
           hoveredId = piece.id;
         });
@@ -495,39 +499,49 @@ export default function Collection({
         });
 
         root.addChild(body);
-
-        const label = document.createElement("div");
-        label.className = "piece-label";
-        label.replaceChildren(...codeParts(`[${piece.code}]`));
-        labelLayer.appendChild(label);
-
-        return { node: root, body, label, blur, piece };
+        return entry;
       }
 
-      function addBlock(c: number, b: number) {
-        const container = new Container();
-        const ids: string[] = [];
-        for (const piece of piecesForBlock(c, b)) {
-          const entry = createNode(piece);
-          nodes.set(piece.id, entry);
-          container.addChild(entry.node);
-          ids.push(piece.id);
-        }
-        world.addChild(container);
-        blocks.set(`${c},${b}`, { container, ids });
+      // Loads the sharp copy only when it is needed: the medium one on hover, the original once opened.
+      function requestSharp(entry: PieceNode, level: 1 | 2) {
+        const image = entry.piece.image;
+        if (!image || entry.sharpLevel >= level) return;
+        entry.sharpLevel = level;
+        Assets.load(imageUrl(image, level === 2 ? "full" : "m"))
+          .then((texture: Texture) => {
+            if (entry.body.destroyed) return;
+            const { w, h } = entry.piece;
+            const cropped = coverTexture(texture, w, h);
+            if (entry.sharp) {
+              // The original replaces the medium copy in place, once it is ready.
+              if (level === 2 || !entry.sharpReady) entry.sharp.texture = cropped;
+            } else {
+              const sprite = new Sprite(cropped);
+              sprite.alpha = 0;
+              sprite.visible = false;
+              // Above the blurred copy, under the grain.
+              const at = entry.grain ? entry.body.getChildIndex(entry.grain) : entry.body.children.length;
+              entry.body.addChildAt(sprite, at);
+              entry.sharp = sprite;
+            }
+            entry.sharp.width = w;
+            entry.sharp.height = h;
+            entry.sharpReady = true;
+          })
+          .catch(() => {
+            entry.sharpLevel = (level - 1) as 0 | 1;
+          });
       }
 
-      function removeBlock(key: string) {
-        const block = blocks.get(key);
-        if (!block) return;
-        for (const id of block.ids) {
-          grainOf.delete(id);
-          nodes.get(id)?.label.remove();
-          nodes.delete(id);
-        }
-        world.removeChild(block.container);
-        block.container.destroy({ children: true });
-        blocks.delete(key);
+      function removeNode(id: string) {
+        const entry = nodes.get(id);
+        if (!entry) return;
+        entry.label.remove();
+        entry.liveBlur?.destroy();
+        world.removeChild(entry.node);
+        entry.node.destroy({ children: true });
+        nodes.delete(id);
+        if (hoveredId === id) hoveredId = null;
       }
 
       // Press and hold, then move, to pan. A short press without movement is a click.
@@ -704,55 +718,94 @@ export default function Collection({
 
           // Public pieces reveal on hover or focus. Private pieces stay blurred.
           const isPublic = entry.piece.visibility === "public";
-          // Hover lifts half of the blur; opening the piece removes the rest.
-          const targetBlur = !isPublic ? BLUR : isFocus ? 0 : !focusedId && hoveredId === id ? BLUR * 0.5 : BLUR;
-          entry.blur.strength += (targetBlur - entry.blur.strength) * Math.min(1, (gliding ? 0.11 : 0.15) * dt);
+          const wantSharp = isPublic && (isFocus || (!focusedId && hoveredId === id));
+          if (wantSharp) requestSharp(entry, isFocus ? 2 : 1);
+          const revealTarget = wantSharp && entry.sharpReady ? 1 : 0;
+          entry.reveal += (revealTarget - entry.reveal) * Math.min(1, (gliding ? 0.11 : 0.15) * dt);
+          if (entry.sharp) {
+            const shown = entry.reveal > 0.004;
+            entry.sharp.visible = shown;
+            entry.sharp.alpha = entry.reveal;
+            // Hover keeps half of the blur, live, on this one piece only; opening the piece removes it.
+            const blurTarget = isFocus ? 0 : BLUR * 0.5;
+            if (shown && (blurTarget > 0 || (entry.liveBlur && entry.liveBlur.strength > 0.1))) {
+              if (!entry.liveBlur) {
+                entry.liveBlur = new BlurFilter({ strength: BLUR });
+                entry.sharp.filters = [entry.liveBlur];
+                entry.body.mask = entry.frame; // keeps the live blur inside the frame
+              }
+              entry.liveBlur.strength += (blurTarget - entry.liveBlur.strength) * Math.min(1, (gliding ? 0.11 : 0.15) * dt);
+            } else if (entry.liveBlur) {
+              entry.sharp.filters = [];
+              entry.body.mask = null;
+              entry.liveBlur.destroy();
+              entry.liveBlur = null;
+            }
+          }
+
+          // The colour frame fades in.
+          if (entry.swatch.alpha < 1) {
+            const t = Math.min(1, Math.max(0, (now - entry.frameStart) / FRAME_FADE_MS));
+            entry.swatch.alpha = t * t * (3 - 2 * t);
+          }
 
           const targetNodeScale = isFocus ? focusScale(entry.piece.h) : 1;
           entry.node.scale.set(entry.node.scale.x + (targetNodeScale - entry.node.scale.x) * k);
           // Keep the grain one device pixel fine whatever the zoom.
-          grainOf.get(id)?.tileScale.set(1 / (entry.node.scale.x * world.scale.x));
+          entry.grain?.tileScale.set(1 / (entry.node.scale.x * world.scale.x));
 
-          // The code follows the piece and stays just below its visible edge.
+          // Only what is on screen is drawn, so the total number of pieces does not slow the plane.
           const s = entry.node.scale.x;
           const cx = entry.piece.x + entry.piece.w / 2;
           const cy = entry.piece.y + entry.piece.h / 2;
-          // Positioned on screen, directly below the visible edge of the piece.
-          const screenX = world.x + cx * scale;
-          const screenY = world.y + (cy + (entry.piece.h * s) / 2) * scale + 10;
-          entry.label.style.transform = `translate(${screenX}px, ${screenY}px) translateX(-50%)`;
-          entry.label.style.opacity = String(entry.node.alpha);
-
-          // Only what is on screen is drawn, so the total number of pieces does not slow the plane.
           const pl = world.x + (cx - (entry.piece.w * s) / 2) * scale;
           const pt = world.y + (cy - (entry.piece.h * s) / 2) * scale;
           const pr = pl + entry.piece.w * s * scale;
           const pb = pt + entry.piece.h * s * scale + 60;
           const onScreen = pr > -120 && pl < sw + 120 && pb > -120 && pt < sh + 120;
           entry.node.visible = onScreen;
-          entry.label.style.display = onScreen ? "" : "none";
+          if (onScreen !== entry.labelShown) {
+            entry.labelShown = onScreen;
+            entry.label.style.display = onScreen ? "" : "none";
+          }
+          if (!onScreen) continue;
+
+          // The code follows the piece, on screen, directly below its visible edge.
+          const screenX = world.x + cx * scale;
+          const screenY = world.y + (cy + (entry.piece.h * s) / 2) * scale + 10;
+          entry.label.style.transform = `translate(${screenX}px, ${screenY}px) translateX(-50%)`;
+          entry.label.style.opacity = String(entry.node.alpha);
         }
 
-        // Stream only the columns and blocks that are on screen, at the current zoom.
+        // Stream only the grid cells on screen, plus a margin, so new pieces are ready before they appear.
         const left = -world.x / scale;
         const top = -world.y / scale;
         const viewW = sw / scale;
         const viewH = sh / scale;
-        const minC = Math.floor(left / BLOCK_WIDTH) - 1;
-        const maxC = Math.floor((left + viewW) / BLOCK_WIDTH) + 1;
-        const minB = Math.floor(top / BLOCK_HEIGHT) - 1;
-        const maxB = Math.floor((top + viewH) / BLOCK_HEIGHT) + 1;
-        const rangeKey = `${minC},${maxC},${minB},${maxB}`;
+        const padX = Math.max(CELL_W, viewW * 0.3);
+        const padY = Math.max(CELL_H, viewH * 0.3);
+        const minX = Math.floor((left - padX) / CELL_W);
+        const maxX = Math.floor((left + viewW + padX) / CELL_W);
+        const minY = Math.floor((top - padY) / CELL_H);
+        const maxY = Math.floor((top + viewH + padY) / CELL_H);
+        const rangeKey = `${minX},${maxX},${minY},${maxY}`;
 
         if (rangeKey !== lastRangeKey) {
           lastRangeKey = rangeKey;
-          for (const key of [...blocks.keys()]) {
-            const [c, b] = key.split(",").map(Number);
-            if (c < minC || c > maxC || b < minB || b > maxB) removeBlock(key);
+          for (const id of [...nodes.keys()]) {
+            if (id === focusedId) continue;
+            const [gx, gy] = id.split(":").map(Number);
+            if (gx < minX || gx > maxX || gy < minY || gy > maxY) removeNode(id);
           }
-          for (let c = minC; c <= maxC; c++) {
-            for (let b = minB; b <= maxB; b++) {
-              if (!blocks.has(`${c},${b}`)) addBlock(c, b);
+          for (let gx = minX; gx <= maxX; gx++) {
+            for (let gy = minY; gy <= maxY; gy++) {
+              const id = `${gx}:${gy}`;
+              if (nodes.has(id)) continue;
+              const piece = pieceAt(gx, gy);
+              if (!piece) continue;
+              const entry = createNode(piece);
+              nodes.set(id, entry);
+              world.addChild(entry.node);
             }
           }
         }

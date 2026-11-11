@@ -7,3 +7,7 @@ out/
 !.env.example
 *.log
 .DS_Store
+
+# Made by scripts/image-versions.mjs on every dev and build
+public/vstg/b/
+public/vstg/m/
