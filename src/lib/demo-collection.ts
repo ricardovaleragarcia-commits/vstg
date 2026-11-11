@@ -4,8 +4,8 @@ import COLORS from "@/data/colors.json"; // predominant colour of each image, ma
 // The plane is an invisible grid. Each cell holds at most one piece, small and placed at a random
 // spot inside it, so the pieces look scattered but never touch. A few cells stay empty.
 // The grid repeats in every direction; each repetition rotates its columns and shifts the entries.
-export const CELL_W = 320;
-export const CELL_H = 310;
+export const CELL_W = 345;
+export const CELL_H = 330;
 export const TILE_COUNT = VSTG.length;
 export const COLUMNS_PER_TILE = 16;
 export const ROWS_PER_TILE = Math.ceil(TILE_COUNT / COLUMNS_PER_TILE); // the few cells left over stay empty
@@ -201,7 +201,7 @@ export function initArchive(seed: number) {
   SEED = seed;
   TILE = buildTile(seed);
   const random = rng(seed ^ 0x9e3779b9);
-  COLUMN_OFFSET = Array.from({ length: COLUMNS_PER_TILE }, () => Math.round(random() * CELL_H * 0.35));
+  COLUMN_OFFSET = Array.from({ length: COLUMNS_PER_TILE }, () => Math.round(random() * CELL_H * 0.4));
   const entries: Content[] = VSTG.map((v, k) => ({
     code: displayCode(v),
     // The frame is painted with the predominant colour of its photograph until the photograph arrives.
